@@ -9,7 +9,13 @@ A simple, interactive web game designed to help Japanese language learners pract
 
 🎮 **[Play the Game Here](https://5ifty6ix.github.io/minna-no-nihongo-game/)**
 
-<img width="270" height="517" alt="Screenshot_20260503_211638" src="https://github.com/user-attachments/assets/e0f2b105-1735-4de6-8d89-c384b34f4580" /><img width="270" height="517" alt="Screenshot_20260503_211642" src="https://github.com/user-attachments/assets/c86a74ff-66b1-4e3d-8010-898eeb43dc10" /><img width="270" height="517" alt="Screenshot_20260503_211719" src="https://github.com/user-attachments/assets/83cb0c6d-b55b-4e2a-9d66-33df4ffb5c5a" /><img width="270" height="517" alt="Screenshot_20260503_211743" src="https://github.com/user-attachments/assets/15c37a6b-b356-43c9-98c1-c485f0fabeb9" />
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/e0f2b105-1735-4de6-8d89-c384b34f4580" width="45%" alt="Gameplay Screenshot 1" />
+  <img src="https://github.com/user-attachments/assets/c86a74ff-66b1-4e3d-8010-898eeb43dc10" width="45%" alt="Gameplay Screenshot 2" />
+  <br>
+  <img src="https://github.com/user-attachments/assets/83cb0c6d-b55b-4e2a-9d66-33df4ffb5c5a" width="45%" alt="Gameplay Screenshot 3" />
+  <img src="https://github.com/user-attachments/assets/15c37a6b-b356-43c9-98c1-c485f0fabeb9" width="45%" alt="Gameplay Screenshot 4" />
+</p>
 
 ## ✨ Features
 * **Interactive Gameplay:** Test your memory with randomized vocabulary.
