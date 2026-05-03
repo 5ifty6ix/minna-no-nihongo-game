@@ -283,7 +283,7 @@ button.primary-btn:disabled {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    min-height: 85px; /* Added to improve uniformity */
+    min-height: 85px; 
     word-break: break-word;
     touch-action: manipulation;
 }
@@ -727,18 +727,36 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
         }
 
         function playAudio(text) {
-            if ('speechSynthesis' in window) {
-                const jaVoice = availableVoices.find(voice => voice.lang === 'ja-JP' || voice.lang === 'ja_JP');
+            // 1. Force Chrome to fetch voices right NOW, just in case it was "lazy" on load
+            let voices = window.speechSynthesis.getVoices();
+            if (voices.length === 0) voices = availableVoices; 
+
+            // 2. Try Native TTS with a much more aggressive, Chrome-friendly search
+            if ('speechSynthesis' in window && voices.length > 0) {
+                // Look for anything that starts with 'ja' (case-insensitive)
+                const jaVoice = voices.find(voice => 
+                    voice.lang.toLowerCase() === 'ja-jp' || 
+                    voice.lang.toLowerCase() === 'ja_jp' ||
+                    voice.lang.toLowerCase().startsWith('ja')
+                );
+
                 if (jaVoice) {
                     window.speechSynthesis.cancel(); 
+                    
                     const utterance = new SpeechSynthesisUtterance(text);
                     utterance.voice = jaVoice;
-                    utterance.lang = 'ja-JP';
+                    utterance.lang = jaVoice.lang; // Give Chrome back its exact tag
+                    utterance.rate = 1.0; // Explicitly setting rate helps Android Chrome
+                    
+                    // Attach to window to prevent Chrome's aggressive garbage collection from cutting audio off
+                    window.utteranceInstance = utterance; 
+
                     window.speechSynthesis.speak(utterance);
-                    return; 
+                    return; // Exit the function! Native audio worked.
                 }
             }
 
+            // 3. Fallback to Google Translate URL (Only reached if native truly fails)
             try {
                 if (currentFallbackAudio) {
                     currentFallbackAudio.pause();
@@ -747,10 +765,10 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
                 const url = `https://translate.google.com/translate_tts?ie=UTF-8&tl=ja&client=tw-ob&q=${encodeURIComponent(text)}`;
                 currentFallbackAudio = new Audio(url);
                 currentFallbackAudio.play().catch(e => {
-                    console.warn('Fallback audio playback failed. The browser might be blocking autoplay.', e);
+                    console.warn('Fallback audio playback failed.', e);
                 });
             } catch(e) {
-                console.warn('Error constructing or playing fallback audio.', e);
+                console.warn('Error constructing fallback audio.', e);
             }
         }
 
