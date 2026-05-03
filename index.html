@@ -2,15 +2,13 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Minna No Nihongo N5 Practice</title>
     
-    <!-- PWA Meta Tags -->
     <meta name="theme-color" content="#58cc02">
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="icon-192.png">
 
-    <!-- Theme Initialization to prevent Flash of Unstyled Content -->
     <script>
         (function() {
             const savedTheme = localStorage.getItem('theme');
@@ -21,7 +19,6 @@
     </script>
 
     <style>
-/* Base/Light Theme Variables */
 :root {
     --bg-color: #f7f9fa;
     --text-color: #3c3c3c;
@@ -44,7 +41,6 @@
     --font-family: 'Nunito', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* Dark Theme Variables */
 [data-theme="dark"] {
     --bg-color: #131f24;
     --text-color: #e5e5e5;
@@ -73,11 +69,22 @@ body {
     transition: background-color 0.3s, color 0.3s;
 }
 
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
 .global-header { text-align: center; margin-bottom: 20px; position: relative; width: 100%; max-width: 600px;}
 .main-title { font-size: 2.2rem; color: var(--primary-color); margin-bottom: 5px; }
 .sub-title { font-size: 1.2rem; opacity: 0.7; margin-bottom: 0; font-weight: normal; }
 
-/* CSS-Only Theme Toggle Icons */
 .theme-toggle-btn {
     position: absolute;
     top: 0;
@@ -129,7 +136,6 @@ body {
 h2 { font-size: 2rem; color: var(--primary-color); margin-bottom: 20px; text-align: center;}
 p { font-size: 1.1rem; margin-bottom: 15px; opacity: 0.8; text-align: center; }
 
-/* Menu Controls */
 .menu-controls {
     display: flex;
     gap: 10px;
@@ -148,6 +154,8 @@ p { font-size: 1.1rem; margin-bottom: 15px; opacity: 0.8; text-align: center; }
     font-weight: bold;
 }
 .small-btn:active { background: var(--tile-hover-bg); transform: translateY(2px); }
+
+fieldset { border: none; min-width: 0; }
 
 #lesson-selector {
     display: grid;
@@ -183,7 +191,6 @@ p { font-size: 1.1rem; margin-bottom: 15px; opacity: 0.8; text-align: center; }
 .lesson-checkbox input { position: absolute; opacity: 0; width: 0; height: 0; }
 .lesson-checkbox:has(input:focus-visible) { outline: 2px solid var(--primary-color); outline-offset: 2px; }
 
-/* Buttons */
 button.primary-btn {
     font-family: var(--font-family);
     font-size: 1.2rem;
@@ -220,7 +227,6 @@ button.primary-btn:disabled {
 }
 #back-btn:active { transform: translateY(2px); box-shadow: 0 0 0 var(--tile-shadow); }
 
-/* Game Area */
 .header {
     display: flex;
     width: 100%;
@@ -260,7 +266,9 @@ button.primary-btn:disabled {
 }
 
 .tile {
+    font-family: inherit;
     background: var(--tile-bg);
+    color: var(--text-color);
     border: 2px solid var(--tile-border);
     border-bottom-width: 4px;
     border-radius: 16px;
@@ -275,7 +283,7 @@ button.primary-btn:disabled {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    min-height: 70px;
+    min-height: 85px; /* Added to improve uniformity */
     word-break: break-word;
     touch-action: manipulation;
 }
@@ -313,7 +321,6 @@ button.primary-btn:disabled {
     75% { transform: translateX(-5px); }
 }
 
-/* Stats */
 .stats-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -334,7 +341,6 @@ button.primary-btn:disabled {
 
 footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center; }
 
-/* Modals */
 .modal-overlay {
     display: none;
     position: fixed;
@@ -388,18 +394,20 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
     </header>
 
     <div id="app">
-        <!-- Menu Screen -->
+        <div id="a11y-announcer" class="sr-only" aria-live="polite"></div>
+
         <div id="menu-screen" class="screen active">
             <p>Select lessons to practice:</p>
             <div class="menu-controls">
                 <button id="select-all-btn" class="small-btn">Select All</button>
                 <button id="clear-all-btn" class="small-btn">Clear</button>
             </div>
-            <div id="lesson-selector"></div>
+            <fieldset id="lesson-selector">
+                <legend class="sr-only">Select Lessons</legend>
+            </fieldset>
             <button id="start-btn" class="primary-btn" disabled>Start Practice</button>
         </div>
 
-        <!-- Game Screen -->
         <div id="game-screen" class="screen">
             <div class="header">
                 <button id="back-btn">Exit</button>
@@ -414,7 +422,6 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
             </div>
         </div>
 
-        <!-- Result Screen -->
         <div id="result-screen" class="screen">
             <h2 id="result-title">Lesson Complete!</h2>
             <div class="stats-grid">
@@ -439,7 +446,6 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
         </div>
     </div>
 
-    <!-- Modals -->
     <div id="quit-modal" class="modal-overlay">
         <div class="modal">
             <h3 style="margin-bottom: 10px; font-size: 1.5rem; color: var(--text-color);">Quit Session?</h3>
@@ -462,92 +468,13 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
         </div>
     </div>
 
-    <footer>Created by: Abdullah Gazi</footer>
+    <footer style="margin-bottom: 20px;">Developed by: Abdullah Gazi</footer>
+
+    <script src="vocab.js"></script>
 
     <script>
-    // FULL VOCABULARY DATA
-    const vocabData = {
-      "1": [
-        { "ja": "わたし", "en": "I" }, { "ja": "あなた", "en": "you" }, { "ja": "あの人", "kana": "あのひと", "en": "that person, he, she" }, { "ja": "〜さん", "en": "Mr., Ms." }, { "ja": "〜ちゃん", "en": "suffix added to a child's name" }, { "ja": "〜人", "kana": "〜じん", "en": "suffix meaning nationality" }, { "ja": "先生", "kana": "せんせい", "en": "teacher, instructor" }, { "ja": "教師", "kana": "きょうし", "en": "teacher, instructor" }, { "ja": "学生", "kana": "がくせい", "en": "student" }, { "ja": "会社員", "kana": "かいしゃいん", "en": "company employee" }, { "ja": "社員", "kana": "しゃいん", "en": "employee of ~ Company" }, { "ja": "銀行員", "kana": "ぎんこういん", "en": "bank employee" }, { "ja": "医者", "kana": "いしゃ", "en": "medical doctor" }, { "ja": "研究者", "kana": "けんきゅうしゃ", "en": "researcher, scholar" }, { "ja": "大学", "kana": "だいがく", "en": "university" }, { "ja": "病院", "kana": "びょういん", "en": "hospital" }, { "ja": "だれ（どなた）", "en": "who" }, { "ja": "〜歳", "kana":"〜さい", "en": "~ years old" }, { "ja": "何歳", "kana":"なんさい", "en": "how old" }, { "ja": "はい", "en": "yes" }, { "ja": "いいえ", "en": "no" }, { "ja": "はじめまして。", "en": "How do you do?" }, { "ja": "〜から きました。", "en": "I'm from ~." }, { "ja": "どうぞ よろしく。", "en": "Pleased to meet you." }, { "ja": "しつれいですが", "en": "Excuse me, but" }, { "ja": "おなまえは？", "en": "May I have your name?" }
-      ],
-      "2": [
-        { "ja": "これ", "en": "this (thing here)" }, { "ja": "それ", "en": "that (thing near you)" }, { "ja": "あれ", "en": "that (thing over there)" }, { "ja": "この〜", "en": "this ~, this ~ here" }, { "ja": "その〜", "en": "that ~, that ~ near you" }, { "ja": "あの〜", "en": "that ~, that ~ over there" }, { "ja": "ほん", "en": "book" }, { "ja": "じしょ", "en": "dictionary" }, { "ja": "ざっし", "en": "magazine" }, { "ja": "しんぶん", "en": "newspaper" }, { "ja": "ノート", "en": "notebook" }, { "ja": "てちょう", "en": "pocket notebook" }, { "ja": "めいし", "en": "business card" }, { "ja": "カード", "en": "card" }, { "ja": "えんぴつ", "en": "pencil" }, { "ja": "ボールペン", "en": "ballpoint pen" }, { "ja": "シャープペンシル", "en": "mechanical pencil" }, { "ja": "かぎ", "en": "key" }, { "ja": "とけい", "en": "watch, clock" }, { "ja": "かさ", "en": "umbrella" }, { "ja": "かばん", "en": "bag, briefcase" }, { "ja": "カセットテープ", "en": "cassette tape" }, { "ja": "テープレコーダー", "en": "tape recorder" }, { "ja": "テレビ", "en": "television" }, { "ja": "ラジオ", "en": "radio" }, { "ja": "カメラ", "en": "camera" }, { "ja": "コンピューター", "en": "computer" }, { "ja": "じどうしゃ", "en": "automobile, car" }, { "ja": "つくえ", "en": "desk" }, { "ja": "いす", "en": "chair" }, { "ja": "チョコレート", "en": "chocolate" }, { "ja": "コーヒー", "en": "coffee" }, { "ja": "えいご", "en": "the English language" }, { "ja": "にほんご", "en": "the Japanese language" }, { "ja": "〜ご", "en": "~ language" }, { "ja": "なん", "en": "what" }, { "ja": "そう", "en": "so" }, { "ja": "ちがいます。", "en": "No, it isn't. / You are wrong." }, { "ja": "そうですか。", "en": "I see. / Is that so?" }, { "ja": "あのう", "en": "well" }, { "ja": "ほんの きもちです。", "en": "It's a token of my gratitude." }, { "ja": "どうぞ。", "en": "Please. / Here you are." }, { "ja": "どうも。", "en": "Well, thanks." }, { "ja": "ありがとう。", "en": "Thank you." }, { "ja": "これから おせわに なります。", "en": "I hope for your kind assistance hereafter." }, { "ja": "こちらこそ よろしく。", "en": "I am pleased to meet you." }
-      ],
-      "3": [
-        { "ja": "ここ", "en": "here, this place" }, { "ja": "そこ", "en": "there, that place near you" }, { "ja": "あそこ", "en": "that place over there" }, { "ja": "どこ", "en": "where, what place" }, { "ja": "こちら", "en": "this way, this place" }, { "ja": "そちら", "en": "that way, that place near you" }, { "ja": "あちら", "en": "that way, that place over there" }, { "ja": "どちら", "en": "which way, where" }, { "ja": "きょうしつ", "en": "classroom" }, { "ja": "しょくどう", "en": "dining hall, canteen" }, { "ja": "じむしょ", "en": "office" }, { "ja": "かいぎしつ", "en": "meeting room" }, { "ja": "うけつけ", "en": "reception desk" }, { "ja": "ロビー", "en": "lobby" }, { "ja": "へや", "en": "room" }, { "ja": "トイレ（おてあらい）", "en": "toilet, restroom" }, { "ja": "かいだん", "en": "staircase" }, { "ja": "エレベーター", "en": "elevator, lift" }, { "ja": "エスカレーター", "en": "escalator" }, { "ja": "おくに", "en": "country" }, { "ja": "かいしゃ", "en": "company" }, { "ja": "うち", "en": "house, home" }, { "ja": "でんわ", "en": "telephone, telephone call" }, { "ja": "くつ", "en": "shoes" }, { "ja": "ネクタイ", "en": "necktie" }, { "ja": "ワイン", "en": "wine" }, { "ja": "たばこ", "en": "tobacco, cigarette" }, { "ja": "うりば", "en": "department, counter" }, { "ja": "ちか", "en": "basement" }, { "ja": "〜かい（〜がい）", "en": "-th floor" }, { "ja": "なんがい", "en": "what floor" }, { "ja": "〜えん", "en": "-yen" }, { "ja": "いくら", "en": "how much" }, { "ja": "ひゃく", "en": "hundred" }, { "ja": "せん", "en": "thousand" }, { "ja": "まん", "en": "ten thousand" }, { "ja": "すみません。", "en": "Excuse me." }, { "ja": "〜で ございます。", "en": "(polite equivalent of です)" }, { "ja": "［〜を］みせて ください。", "en": "Please show me [~]." }, { "ja": "じゃ", "en": "well, then, in that case" }, { "ja": "［〜を］ください。", "en": "Give me [~], please." }
-      ],
-      "4": [
-        { "ja": "おきます", "en": "get up, wake up" }, { "ja": "ねます", "en": "sleep, go to bed" }, { "ja": "はたらきます", "en": "work" }, { "ja": "やすみます", "en": "take a rest, take a holiday" }, { "ja": "べんきょうします", "en": "study" }, { "ja": "おわります", "en": "finish" }, { "ja": "デパート", "en": "department store" }, { "ja": "ぎんこう", "en": "bank" }, { "ja": "ゆうびんきょく", "en": "post office" }, { "ja": "としょかん", "en": "library" }, { "ja": "びじゅつかん", "en": "art museum" }, { "ja": "いま", "en": "now" }, { "ja": "〜じ", "en": "-o'clock" }, { "ja": "〜ふん（〜ぷん）", "en": "-minute" }, { "ja": "はん", "en": "half" }, { "ja": "なんじ", "en": "what time" }, { "ja": "なんぷん", "en": "what minute" }, { "ja": "ごぜん", "en": "a.m., morning" }, { "ja": "ごご", "en": "p.m., afternoon" }, { "ja": "あさ", "en": "morning" }, { "ja": "ひる", "en": "daytime, noon" }, { "ja": "ばん（よる）", "en": "night, evening" }, { "ja": "おととい", "en": "the day before yesterday" }, { "ja": "きのう", "en": "yesterday" }, { "ja": "きょう", "en": "today" }, { "ja": "あした", "en": "tomorrow" }, { "ja": "あさって", "en": "the day after tomorrow" }, { "ja": "けさ", "en": "this morning" }, { "ja": "こんばん", "en": "this evening, tonight" }, { "ja": "やすみ", "en": "rest, a holiday, a day off" }, { "ja": "ひるやすみ", "en": "lunchtime" }, { "ja": "まいあさ", "en": "every morning" }, { "ja": "まいばん", "en": "every night" }, { "ja": "まいにち", "en": "every day" }, { "ja": "げつようび", "en": "Monday" }, { "ja": "かようび", "en": "Tuesday" }, { "ja": "すいようび", "en": "Wednesday" }, { "ja": "もくようび", "en": "Thursday" }, { "ja": "きんようび", "en": "Friday" }, { "ja": "どようび", "en": "Saturday" }, { "ja": "にちようび", "en": "Sunday" }, { "ja": "なんようび", "en": "what day of the week" }, { "ja": "ばんごう", "en": "number" }, { "ja": "なんばん", "en": "what number" }, { "ja": "〜から", "en": "from ~" }, { "ja": "〜まで", "en": "up to ~, until ~" }, { "ja": "〜と〜", "en": "~ and ~ (used to connect nouns)" }, { "ja": "そちら", "en": "your place" }, { "ja": "たいへんですね。", "en": "That's tough, isn't it?" }, { "ja": "えーと", "en": "well, let me see" }, { "ja": "おねがいします。", "en": "Please." }, { "ja": "かしこまりました。", "en": "Certainly (sir, madam)." }, { "ja": "おといあわせの ばんごう", "en": "the number being inquired about" }, { "ja": "［どうも］ありがとう ございました。", "en": "Thank you very much." }
-      ],
-      "5": [
-        { "ja": "いきます", "en": "go" }, { "ja": "きます", "en": "come" }, { "ja": "かえります", "en": "go home, return" }, { "ja": "がっこう", "en": "school" }, { "ja": "スーパー", "en": "supermarket" }, { "ja": "えき", "en": "station" }, { "ja": "ひこうき", "en": "airplane" }, { "ja": "ふね", "en": "ship" }, { "ja": "でんしゃ", "en": "electric train" }, { "ja": "ちかてつ", "en": "subway" }, { "ja": "しんかんせん", "en": "the bullet train" }, { "ja": "バス", "en": "bus" }, { "ja": "タクシー", "en": "taxi" }, { "ja": "じてんしゃ", "en": "bicycle" }, { "ja": "あるいて", "en": "on foot" }, { "ja": "ひと", "en": "person, people" }, { "ja": "ともだち", "en": "friend" }, { "ja": "かれ", "en": "he, boyfriend, lover" }, { "ja": "かのじょ", "en": "she, girlfriend, lover" }, { "ja": "かぞく", "en": "family" }, { "ja": "ひとりで", "en": "alone, by oneself" }, { "ja": "せんしゅう", "en": "last week" }, { "ja": "こんしゅう", "en": "this week" }, { "ja": "らいしゅう", "en": "next week" }, { "ja": "せんげつ", "en": "last month" }, { "ja": "こんげつ", "en": "this month" }, { "ja": "らいげつ", "en": "next month" }, { "ja": "きょねん", "en": "last year" }, { "ja": "ことし", "en": "this year" }, { "ja": "らいねん", "en": "next year" }, { "ja": "いつ", "en": "when" }, { "ja": "たんじょうび", "en": "birthday" }
-      ],
-      "6": [
-        { "ja": "たべます", "en": "eat" }, { "ja": "のみます", "en": "drink" }, { "ja": "すいます", "en": "smoke" }, { "ja": "みます", "en": "see, look at, watch" }, { "ja": "ききます", "en": "hear, listen" }, { "ja": "よみます", "en": "read" }, { "ja": "かきます", "en": "write, draw, paint" }, { "ja": "かいます", "en": "buy" }, { "ja": "とります", "en": "take" }, { "ja": "します", "en": "do" }, { "ja": "あいます", "en": "meet" }, { "ja": "ごはん", "en": "a meal, cooked rice" }, { "ja": "あさごはん", "en": "breakfast" }, { "ja": "ひるごはん", "en": "lunch" }, { "ja": "ばんごはん", "en": "supper" }, { "ja": "パン", "en": "bread" }, { "ja": "たまご", "en": "egg" }, { "ja": "にく", "en": "meat" }, { "ja": "さかな", "en": "fish" }, { "ja": "やさい", "en": "vegetable" }, { "ja": "くだもの", "en": "fruit" }, { "ja": "みず", "en": "water" }, { "ja": "おちゃ", "en": "tea, green tea" }, { "ja": "こうちゃ", "en": "black tea" }, { "ja": "ぎゅうにゅう", "en": "milk" }, { "ja": "ミルク", "en": "milk" }, { "ja": "ジュース", "en": "juice" }, { "ja": "ビール", "en": "beer" }, { "ja": "おさけ", "en": "alcohol, Japanese rice wine" }, { "ja": "ビデオ", "en": "video tape, video deck" }, { "ja": "えいが", "en": "movie" }, { "ja": "てがみ", "en": "letter" }, { "ja": "レポート", "en": "report" }, { "ja": "しゃしん", "en": "photograph" }, { "ja": "みせ", "en": "store, shop" }, { "ja": "レストラン", "en": "restaurant" }, { "ja": "にわ", "en": "garden" }, { "ja": "しゅくだい", "en": "homework" }, { "ja": "テニス", "en": "tennis" }, { "ja": "サッカー", "en": "soccer" }, { "ja": "おはなみ", "en": "cherry-blossom viewing" }, { "ja": "なに", "en": "what" }, { "ja": "いっしょに", "en": "together" }, { "ja": "ちょっと", "en": "a little while, a little bit" }, { "ja": "いつも", "en": "always, usually" }, { "ja": "ときどき", "en": "sometimes" }, { "ja": "それから", "en": "after that, and then" }
-      ],
-      "7": [
-        { "ja": "きります", "en": "cut, slice" }, { "ja": "おくります", "en": "send" }, { "ja": "あげます", "en": "give" }, { "ja": "もらいます", "en": "receive" }, { "ja": "かします", "en": "lend" }, { "ja": "かります", "en": "borrow" }, { "ja": "おしえます", "en": "teach" }, { "ja": "ならいます", "en": "learn" }, { "ja": "かけます", "en": "make (a telephone call)" }, { "ja": "て", "en": "hand, arm" }, { "ja": "はし", "en": "chopsticks" }, { "ja": "スプーン", "en": "spoon" }, { "ja": "ナイフ", "en": "knife" }, { "ja": "フォーク", "en": "fork" }, { "ja": "はさみ", "en": "scissors" }, { "ja": "ファクス", "en": "fax" }, { "ja": "ワープロ", "en": "word processor" }, { "ja": "パソコン", "en": "personal computer" }, { "ja": "パンチ", "en": "punch" }, { "ja": "ホッチキス", "en": "stapler" }, { "ja": "セロテープ", "en": "Sellotape, clear adhesive tape" }, { "ja": "けしゴム", "en": "eraser" }, { "ja": "かみ", "en": "paper" }, { "ja": "はな", "en": "flower, blossom" }, { "ja": "シャツ", "en": "shirt" }, { "ja": "プレゼント", "en": "present, gift" }, { "ja": "にもつ", "en": "baggage, parcel" }, { "ja": "おかね", "en": "money" }, { "ja": "きっぷ", "en": "ticket" }, { "ja": "クリスマス", "en": "Christmas" }, { "ja": "ちち", "en": "(my) father" }, { "ja": "はは", "en": "(my) mother" }, { "ja": "おとうさん", "en": "(someone else's) father" }, { "ja": "おかあさん", "en": "(someone else's) mother" }, { "ja": "もう", "en": "already" }, { "ja": "まだ", "en": "not yet" }, { "ja": "これから", "en": "from now on, soon" }
-      ],
-      "8": [
-        { "ja": "ハンサム", "en": "handsome" }, { "ja": "きれい", "en": "beautiful, clean" }, { "ja": "しずか", "en": "quiet" }, { "ja": "にぎやか", "en": "lively" }, { "ja": "ゆうめい", "en": "famous" }, { "ja": "しんせつ", "en": "kind" }, { "ja": "げんき", "en": "healthy, sound, cheerful" }, { "ja": "ひま", "en": "free (time)" }, { "ja": "べんり", "en": "convenient" }, { "ja": "すてき", "en": "fine, nice, wonderful" }, { "ja": "おおきい", "en": "big, large" }, { "ja": "ちいさい", "en": "small, little" }, { "ja": "あたらしい", "en": "new" }, { "ja": "ふるい", "en": "old (not of age)" }, { "ja": "いい", "en": "good" }, { "ja": "よい", "en": "good" }, { "ja": "わるい", "en": "bad" }, { "ja": "あつい", "en": "hot" }, { "ja": "さむい", "en": "cold (referring to temperature)" }, { "ja": "つめたい", "en": "cold (referring to touch)" }, { "ja": "むずかしい", "en": "difficult" }, { "ja": "やさしい", "en": "easy" }, { "ja": "たかい", "en": "expensive, high" }, { "ja": "やすい", "en": "inexpensive, cheap" }, { "ja": "ひくい", "en": "low" }, { "ja": "おもしろい", "en": "interesting" }, { "ja": "おいしい", "en": "delicious, tasty" }, { "ja": "いそがしい", "en": "busy" }, { "ja": "たのしい", "en": "enjoyable, fun" }, { "ja": "しろい", "en": "white" }, { "ja": "くろい", "en": "black" }, { "ja": "あかい", "en": "red" }, { "ja": "あおい", "en": "blue" }, { "ja": "さくら", "en": "cherry (blossom)" }, { "ja": "やま", "en": "mountain" }, { "ja": "まち", "en": "town, city" }, { "ja": "たべもの", "en": "food" }, { "ja": "くるま", "en": "car, vehicle" }, { "ja": "ところ", "en": "place" }, { "ja": "りょう", "en": "dormitory" }, { "ja": "べんきょう", "en": "study" }, { "ja": "せいかつ", "en": "life" }, { "ja": "おしごと", "en": "work, business" }, { "ja": "どう", "en": "how" }, { "ja": "どんな", "en": "what kind of" }, { "ja": "どれ", "en": "which one (of three or more)" }, { "ja": "とても", "en": "very" }, { "ja": "あまり", "en": "not so (used with negatives)" }, { "ja": "そして", "en": "and (used to connect sentences)" }, { "ja": "が", "en": "~, but ~" }
-      ],
-      "9": [
-        { "ja": "わかります", "en": "understand" }, { "ja": "あります", "en": "have" }, { "ja": "すき", "en": "like" }, { "ja": "きらい", "en": "dislike" }, { "ja": "じょうず", "en": "good at" }, { "ja": "へた", "en": "poor at" }, { "ja": "のみもの", "en": "drinks" }, { "ja": "りょうり", "en": "dish (cooked food), cooking" }, { "ja": "スポーツ", "en": "sport" }, { "ja": "やきゅう", "en": "baseball" }, { "ja": "ダンス", "en": "dance" }, { "ja": "りょこう", "en": "trip, tour" }, { "ja": "おんがく", "en": "music" }, { "ja": "うた", "en": "song" }, { "ja": "クラシック", "en": "classical music" }, { "ja": "ジャズ", "en": "jazz" }, { "ja": "コンサート", "en": "concert" }, { "ja": "カラオケ", "en": "karaoke" }, { "ja": "かぶき", "en": "Kabuki (traditional Japanese musical drama)" }, { "ja": "え", "en": "picture, drawing" }, { "ja": "じ", "en": "letter, character" }, { "ja": "かんじ", "en": "Chinese characters" }, { "ja": "ひらがな", "en": "Hiragana script" }, { "ja": "かたかな", "en": "Katakana script" }, { "ja": "ローマじ", "en": "the Roman alphabet" }, { "ja": "こまかいおかね", "en": "small change" }, { "ja": "チケット", "en": "ticket" }, { "ja": "じかん", "en": "time" }, { "ja": "ようじ", "en": "something to do, errand" }, { "ja": "やくそく", "en": "appointment, promise" }, { "ja": "アルバイト", "en": "side job, part-time job" }, { "ja": "ごしゅじん", "en": "(someone else's) husband" }, { "ja": "おっと", "en": "(my) husband" }, { "ja": "しゅじん", "en": "(my) husband" }, { "ja": "おくさん", "en": "(someone else's) wife" }, { "ja": "つま", "en": "(my) wife" }, { "ja": "かない", "en": "(my) wife" }, { "ja": "こども", "en": "child" }, { "ja": "よく", "en": "well, much" }, { "ja": "だいたい", "en": "mostly, roughly" }, { "ja": "たくさん", "en": "many, much" }, { "ja": "すこし", "en": "a little, a few" }, { "ja": "ぜんぜん", "en": "not at all (used with negatives)" }, { "ja": "はやく", "en": "early, quickly" }, { "ja": "から", "en": "because" }
-      ],
-      "10": [
-        { "ja": "あります", "en": "exist, be (inanimate things)" }, { "ja": "います", "en": "exist, be (animate things)" }, { "ja": "いろいろ", "en": "various" }, { "ja": "おとこのひと", "en": "man" }, { "ja": "おんなのひと", "en": "woman" }, { "ja": "おとこのこ", "en": "boy" }, { "ja": "おんなのこ", "en": "girl" }, { "ja": "いぬ", "en": "dog" }, { "ja": "ねこ", "en": "cat" }, { "ja": "パンダ", "en": "panda" }, { "ja": "ぞう", "en": "elephant" }, { "ja": "き", "en": "tree, wood" }, { "ja": "もの", "en": "thing" }, { "ja": "でんち", "en": "battery" }, { "ja": "はこ", "en": "box" }, { "ja": "スイッチ", "en": "switch" }, { "ja": "れいぞうこ", "en": "refrigerator" }, { "ja": "テーブル", "en": "table" }, { "ja": "ベッド", "en": "bed" }, { "ja": "たな", "en": "shelf" }, { "ja": "ドア", "en": "door" }, { "ja": "まど", "en": "window" }, { "ja": "ポスト", "en": "postbox, mailbox" }, { "ja": "ビル", "en": "building" }, { "ja": "ATM", "en": "automated teller machine" }, { "ja": "コンビニ", "en": "convenience store" }, { "ja": "こうえん", "en": "park" }, { "ja": "きっさてん", "en": "coffee shop, cafe" }, { "ja": "～や", "en": "~ shop" }, { "ja": "のりば", "en": "a fixed place to catch taxis, trains, etc." }, { "ja": "けん", "en": "prefecture" }, { "ja": "うえ", "en": "on, above, over" }, { "ja": "した", "en": "under, below, beneath" }, { "ja": "まえ", "en": "front, before" }, { "ja": "うしろ", "en": "back, behind" }, { "ja": "みぎ", "en": "right (side)" }, { "ja": "ひだり", "en": "left (side)" }, { "ja": "なか", "en": "in, inside" }, { "ja": "そと", "en": "outside" }, { "ja": "となり", "en": "next, next door" }, { "ja": "ちかく", "en": "near, vicinity" }, { "ja": "あいだ", "en": "between, among" }, { "ja": "や", "en": "~, ~, and so on" }
-      ],
-      "11": [
-        { "ja": "います", "en": "have (children)" }, { "ja": "います", "en": "stay, be (in Japan)" }, { "ja": "かかります", "en": "take (time or money)" }, { "ja": "やすみます", "en": "take a day off (work)" }, { "ja": "ひとつ", "en": "one (item)" }, { "ja": "ふたつ", "en": "two (items)" }, { "ja": "みっつ", "en": "three (items)" }, { "ja": "よっつ", "en": "four (items)" }, { "ja": "いつつ", "en": "five (items)" }, { "ja": "むっつ", "en": "six (items)" }, { "ja": "ななつ", "en": "seven (items)" }, { "ja": "やっつ", "en": "eight (items)" }, { "ja": "ここのつ", "en": "nine (items)" }, { "ja": "とお", "en": "ten (items)" }, { "ja": "いくつ", "en": "how many" }, { "ja": "ひとり", "en": "one person" }, { "ja": "ふたり", "en": "two people" }, { "ja": "～にん", "en": "~ people" }, { "ja": "～だい", "en": "(counter for machines, cars, etc.)" }, { "ja": "～まい", "en": "(counter for flat things, e.g., paper, shirts)" }, { "ja": "～かい", "en": "~ times" }, { "ja": "りんご", "en": "apple" }, { "ja": "みかん", "en": "mandarin orange" }, { "ja": "サンドイッチ", "en": "sandwich" }, { "ja": "カレーライス", "en": "curry and rice" }, { "ja": "アイスクリーム", "en": "ice cream" }, { "ja": "きって", "en": "postage stamp" }, { "ja": "はがき", "en": "postcard" }, { "ja": "ふうとう", "en": "envelope" }, { "ja": "りょうしん", "en": "parents" }, { "ja": "きょうだい", "en": "brothers and sisters" }, { "ja": "あに", "en": "(my) older brother" }, { "ja": "おにいさん", "en": "(someone else's) older brother" }, { "ja": "あね", "en": "(my) older sister" }, { "ja": "おねえさん", "en": "(someone else's) older sister" }, { "ja": "おとうと", "en": "(my) younger brother" }, { "ja": "おとうとさん", "en": "(someone else's) younger brother" }, { "ja": "いもうと", "en": "(my) younger sister" }, { "ja": "いもうとさん", "en": "(someone else's) younger sister" }, { "ja": "がいこく", "en": "foreign country" }, { "ja": "りゅうがくせい", "en": "foreign student" }, { "ja": "クラス", "en": "class" }, { "ja": "じかん", "en": "~ hour(s)" }, { "ja": "しゅうかん", "en": "~ week(s)" }, { "ja": "かげつ", "en": "~ month(s)" }, { "ja": "ねん", "en": "~ year(s)" }, { "ja": "ぐらい", "en": "about ~" }, { "ja": "どのくらい", "en": "how long" }, { "ja": "ぜんぶで", "en": "in total" }, { "ja": "みんな", "en": "all, everything, everyone" }, { "ja": "だけ", "en": "only ~" }
-      ],
-      "12": [
-        { "ja": "かんたん", "en": "easy, simple" }, { "ja": "ちかい", "en": "near" }, { "ja": "とおい", "en": "far" }, { "ja": "はやい", "en": "fast, early" }, { "ja": "おそい", "en": "late, slow" }, { "ja": "おおい", "en": "many, much (people)" }, { "ja": "すくない", "en": "few, a little (people)" }, { "ja": "あたたかい", "en": "warm" }, { "ja": "すずしい", "en": "cool" }, { "ja": "あまい", "en": "sweet" }, { "ja": "からい", "en": "hot (spicy), salty" }, { "ja": "おもい", "en": "heavy" }, { "ja": "かるい", "en": "light (in weight)" }, { "ja": "いい", "en": "prefer (coffee)" }, { "ja": "きせつ", "en": "season" }, { "ja": "はる", "en": "spring" }, { "ja": "なつ", "en": "summer" }, { "ja": "あき", "en": "autumn, fall" }, { "ja": "ふゆ", "en": "winter" }, { "ja": "てんき", "en": "weather" }, { "ja": "あめ", "en": "rain, rainy" }, { "ja": "ゆき", "en": "snow, snowy" }, { "ja": "くもり", "en": "cloudy" }, { "ja": "ホテル", "en": "hotel" }, { "ja": "くうこう", "en": "airport" }, { "ja": "うみ", "en": "sea, ocean" }, { "ja": "せかい", "en": "world" }, { "ja": "パーティー", "en": "party" }, { "ja": "おまつり", "en": "festival" }, { "ja": "すきやき", "en": "sukiyaki" }, { "ja": "さしみ", "en": "sashimi (sliced raw fish)" }, { "ja": "おすし", "en": "sushi (vinegared rice with fish)" }, { "ja": "てんぷら", "en": "tempura" }, { "ja": "ぶたにく", "en": "pork" }, { "ja": "とりにく", "en": "chicken" }, { "ja": "ぎゅうにく", "en": "beef" }, { "ja": "レモン", "en": "lemon" }, { "ja": "いけばな", "en": "flower arrangement" }, { "ja": "もみじ", "en": "maple, red leaves of autumn" }, { "ja": "どちら", "en": "which one (of two)" }, { "ja": "どちらも", "en": "both" }, { "ja": "いちばん", "en": "the most" }, { "ja": "ずっと", "en": "by far" }, { "ja": "はじめて", "en": "for the first time" }
-      ],
-      "13": [
-        { "ja": "あそびます", "en": "play, enjoy oneself" }, { "ja": "およぎます", "en": "swim" }, { "ja": "むかえます", "en": "go to meet, welcome" }, { "ja": "つかれます", "en": "get tired" }, { "ja": "だします", "en": "send (a letter)" }, { "ja": "はいります", "en": "enter (a coffee shop)" }, { "ja": "でます", "en": "go out (of a coffee shop)" }, { "ja": "けっこんします", "en": "marry, get married" }, { "ja": "かいものします", "en": "do shopping" }, { "ja": "しょくじします", "en": "have a meal, dine" }, { "ja": "さんぽします", "en": "take a walk (in a park)" }, { "ja": "たいへん", "en": "hard, tough, severe, awful" }, { "ja": "ほしい", "en": "want (something)" }, { "ja": "さびしい", "en": "lonely" }, { "ja": "ひろい", "en": "wide, spacious" }, { "ja": "せまい", "en": "narrow, small (room, etc.)" }, { "ja": "しやくしょ", "en": "municipal office, city hall" }, { "ja": "プール", "en": "swimming pool" }, { "ja": "かわ", "en": "river" }, { "ja": "けいざい", "en": "economy" }, { "ja": "びじゅつ", "en": "fine arts" }, { "ja": "つり", "en": "fishing" }, { "ja": "スキー", "en": "skiing" }, { "ja": "かいぎ", "en": "meeting, conference" }, { "ja": "とうろく", "en": "registration" }, { "ja": "しゅうまつ", "en": "weekend" }, { "ja": "ごろ", "en": "about (time)" }, { "ja": "なにか", "en": "something" }, { "ja": "どこか", "en": "somewhere, some place" }, { "ja": "おなかがすきました", "en": "I'm hungry" }, { "ja": "おなかがいっぱいです", "en": "I'm full" }, { "ja": "のどがかわきました", "en": "I'm thirsty" }
-      ],
-      "14": [
-        { "ja": "つけます", "en": "turn on" }, { "ja": "けします", "en": "turn off" }, { "ja": "あけます", "en": "open" }, { "ja": "しめます", "en": "close, shut" }, { "ja": "いそぎます", "en": "hurry" }, { "ja": "まちます", "en": "wait" }, { "ja": "とめます", "en": "stop, park" }, { "ja": "まがります", "en": "turn (right)" }, { "ja": "もちます", "en": "hold" }, { "ja": "とります", "en": "take, pass" }, { "ja": "てつだいます", "en": "help (with a task)" }, { "ja": "よびます", "en": "call" }, { "ja": "はなします", "en": "speak, talk" }, { "ja": "みせます", "en": "show" }, { "ja": "おしえます", "en": "tell (an address)" }, { "ja": "はじめます", "en": "start, begin" }, { "ja": "ふります", "en": "rain" }, { "ja": "コピーします", "en": "copy" }, { "ja": "エアコン", "en": "air conditioner" }, { "ja": "パスポート", "en": "passport" }, { "ja": "なまえ", "en": "name" }, { "ja": "じゅうしょ", "en": "address" }, { "ja": "ちず", "en": "map" }, { "ja": "しお", "en": "salt" }, { "ja": "さとう", "en": "sugar" }, { "ja": "よみかた", "en": "how to read, way of reading" }, { "ja": "かた", "en": "how to ~, way of ~ing" }, { "ja": "ゆっくり", "en": "slowly, leisurely" }, { "ja": "すぐ", "en": "immediately" }, { "ja": "また", "en": "again" }, { "ja": "あとで", "en": "later" }, { "ja": "もうすこし", "en": "a little more" }, { "ja": "もう", "en": "~ more, another ~" }
-      ],
-      "15": [
-        { "ja": "たちます", "en": "stand up" }, { "ja": "すわります", "en": "sit down" }, { "ja": "つかいます", "en": "use" }, { "ja": "おきます", "en": "put" }, { "ja": "つくります", "en": "make, produce" }, { "ja": "うります", "en": "sell" }, { "ja": "しります", "en": "get to know" }, { "ja": "すみます", "en": "be going to live" }, { "ja": "けんきゅうします", "en": "do research" }, { "ja": "しっています", "en": "know" }, { "ja": "すんでいます", "en": "live (in Osaka)" }, { "ja": "しりょう", "en": "materials, data" }, { "ja": "カタログ", "en": "catalog" }, { "ja": "じこくひょう", "en": "timetable" }, { "ja": "ふく", "en": "clothes" }, { "ja": "せいひん", "en": "products" }, { "ja": "ソフト", "en": "software" }, { "ja": "でんしじしょ", "en": "electronic dictionary" }, { "ja": "けいざい", "en": "economy" }, { "ja": "しやくしょ", "en": "city hall" }, { "ja": "こうこう", "en": "senior high school" }, { "ja": "はいしゃ", "en": "dentist, dentist's" }, { "ja": "どくしん", "en": "single, unmarried" }
-      ],
-      "16": [
-        { "ja": "のります", "en": "get on, board" }, { "ja": "おります", "en": "get off, alight" }, { "ja": "のりかえます", "en": "change (trains, etc.)" }, { "ja": "あびます", "en": "take (a shower)" }, { "ja": "いれます", "en": "put in, insert" }, { "ja": "だします", "en": "take out, hand in, pay" }, { "ja": "はいります", "en": "enter (university)" }, { "ja": "でます", "en": "graduate from (university)" }, { "ja": "やめます", "en": "quit or retire from (a company), stop, give up" }, { "ja": "おします", "en": "push, press" }, { "ja": "わかい", "en": "young" }, { "ja": "ながい", "en": "long" }, { "ja": "みじかい", "en": "short" }, { "ja": "あかるい", "en": "bright, light" }, { "ja": "くらい", "en": "dark" }, { "ja": "せがたかい", "en": "tall (referring to person)" }, { "ja": "あたまがいい", "en": "clever, smart" }, { "ja": "からだ", "en": "body" }, { "ja": "あたま", "en": "head" }, { "ja": "かみ", "en": "hair" }, { "ja": "かお", "en": "face" }, { "ja": "め", "en": "eye" }, { "ja": "みみ", "en": "ear" }, { "ja": "くち", "en": "mouth" }, { "ja": "は", "en": "tooth" }, { "ja": "おなか", "en": "stomach" }, { "ja": "あし", "en": "leg, foot" }, { "ja": "サービス", "en": "service" }, { "ja": "ジョギング", "en": "jogging" }, { "ja": "シャワー", "en": "shower" }, { "ja": "みどり", "en": "green, greenery" }, { "ja": "おてら", "en": "Buddhist temple" }, { "ja": "じんじゃ", "en": "Shinto shrine" }, { "ja": "りゅうがくせい", "en": "foreign student" }, { "ja": "ばん", "en": "number ~" }, { "ja": "どうやって", "en": "in what way, how" }, { "ja": "どの", "en": "which ~ (used for three or more)" }, { "ja": "どれ", "en": "which one (of three or more)" }
-      ],
-      "17": [
-        { "ja": "おぼえます", "en": "memorize" }, { "ja": "わすれます", "en": "forget" }, { "ja": "なくします", "en": "lose" }, { "ja": "だします", "en": "hand in (a report)" }, { "ja": "はらいます", "en": "pay" }, { "ja": "かえします", "en": "give back, return" }, { "ja": "でかけます", "en": "go out" }, { "ja": "ぬぎます", "en": "take off (clothes, shoes, etc.)" }, { "ja": "もっていきます", "en": "take (something)" }, { "ja": "もってきます", "en": "bring (something)" }, { "ja": "しんぱいします", "en": "worry" }, { "ja": "ざんぎょうします", "en": "work overtime" }, { "ja": "しゅっちょうします", "en": "go on a business trip" }, { "ja": "のみます", "en": "take (medicine)" }, { "ja": "はいります", "en": "take (a bath)" }, { "ja": "たいせつ", "en": "important, precious" }, { "ja": "だいじょうぶ", "en": "all right" }, { "ja": "あぶない", "en": "dangerous" }, { "ja": "もんだい", "en": "question, problem, trouble" }, { "ja": "こたえ", "en": "answer" }, { "ja": "きんえん", "en": "no smoking" }, { "ja": "けんこうほけんしょう", "en": "health insurance card" }, { "ja": "かぜ", "en": "a cold" }, { "ja": "ねつ", "en": "fever" }, { "ja": "びょうき", "en": "illness, disease" }, { "ja": "くすり", "en": "medicine" }, { "ja": "おふろ", "en": "bath" }, { "ja": "うわぎ", "en": "jacket, outerwear" }, { "ja": "したぎ", "en": "underwear" }, { "ja": "せんせい", "en": "doctor (used when addressing a medical doctor)" }, { "ja": "に", "en": "a few days" }, { "ja": "までに", "en": "before, by (indicating time limit)" }, { "ja": "ですから", "en": "therefore, so" }
-      ],
-      "18": [
-        { "ja": "できます", "en": "be able to, can" }, { "ja": "あらいます", "en": "wash" }, { "ja": "ひきます", "en": "play (string instrument or piano, etc.)" }, { "ja": "うたいます", "en": "sing" }, { "ja": "あつめます", "en": "collect, gather" }, { "ja": "すてます", "en": "throw away" }, { "ja": "かえます", "en": "exchange, change" }, { "ja": "うんてんします", "en": "drive" }, { "ja": "よやくします", "en": "reserve, book" }, { "ja": "けんがくします", "en": "visit some place for study" }, { "ja": "ピアノ", "en": "piano" }, { "ja": "メートル", "en": "meter" }, { "ja": "こくさい", "en": "international" }, { "ja": "げんきん", "en": "cash" }, { "ja": "しゅみ", "en": "hobby" }, { "ja": "にっき", "en": "diary" }, { "ja": "おいのり", "en": "prayer" }, { "ja": "かちょう", "en": "section chief" }, { "ja": "ぶちょう", "en": "department chief" }, { "ja": "しゃちょう", "en": "president of a company" }, { "ja": "どうぶつ", "en": "animal" }, { "ja": "うま", "en": "horse" }, { "ja": "へえ", "en": "really! (used when expressing surprise)" }, { "ja": "それはおもしろいですね", "en": "That must be interesting" }, { "ja": "なかなか", "en": "not easily (used with negatives)" }, { "ja": "ぼく", "en": "I (informal equivalent of watashi used by men)" }, { "ja": "ぜひ", "en": "by all means" }
-      ],
-      "19": [
-        { "ja": "のぼります", "en": "climb, go up" }, { "ja": "とまります", "en": "stay (at a hotel)" }, { "ja": "そうじします", "en": "clean (a room)" }, { "ja": "せんたくします", "en": "wash (clothes)" }, { "ja": "れんしゅうします", "en": "practice" }, { "ja": "なります", "en": "become" }, { "ja": "ねむい", "en": "sleepy" }, { "ja": "つよい", "en": "strong" }, { "ja": "よわい", "en": "weak" }, { "ja": "ちょうしがいい", "en": "be in good condition" }, { "ja": "ちょうしがわるい", "en": "be in bad condition" }, { "ja": "ちょうし", "en": "condition" }, { "ja": "ゴルフ", "en": "golf" }, { "ja": "すもう", "en": "sumo wrestling" }, { "ja": "パチンコ", "en": "pachinko (Japanese pinball)" }, { "ja": "おちゃ", "en": "tea ceremony" }, { "ja": "ひ", "en": "day, date" }, { "ja": "いちど", "en": "once" }, { "ja": "いちども", "en": "not once, never (used with negatives)" }, { "ja": "だんだん", "en": "gradually" }, { "ja": "もうすぐ", "en": "soon" }, { "ja": "おかげさまで", "en": "Thank you (used when expressing gratitude for help received)" }, { "ja": "かんぱい", "en": "Bottoms up / Cheers!" }, { "ja": "ダイエット", "en": "diet" }, { "ja": "むり", "en": "excessive, impossible" }, { "ja": "からだにいい", "en": "good for one's health" }
-      ],
-      "20": [
-        { "ja": "いります", "en": "need, require (a visa)" }, { "ja": "しらべます", "en": "check, investigate" }, { "ja": "なおします", "en": "repair, correct" }, { "ja": "しゅうりします", "en": "repair" }, { "ja": "でんわします", "en": "phone" }, { "ja": "ぼく", "en": "I (informal equivalent of watashi used by men)" }, { "ja": "きみ", "en": "you (informal equivalent of anata used by men)" }, { "ja": "くん", "en": "Mr. (informal equivalent of ~san used by men)" }, { "ja": "うん", "en": "yes (informal equivalent of hai)" }, { "ja": "ううん", "en": "no (informal equivalent of iie)" }, { "ja": "サラリーマン", "en": "salaryman, company employee" }, { "ja": "ことば", "en": "word, language" }, { "ja": "ぶっか", "en": "commodity prices" }, { "ja": "きもの", "en": "kimono (traditional Japanese attire)" }, { "ja": "ビザ", "en": "visa" }, { "ja": "はじめ", "en": "the beginning" }, { "ja": "おわり", "en": "the end" }, { "ja": "こっち", "en": "this way, this place (informal equivalent of kochira)" }, { "ja": "そっち", "en": "that way, that place (informal equivalent of sochira)" }, { "ja": "あっち", "en": "that way, that place over there (informal equivalent of achira)" }, { "ja": "どっち", "en": "which one (between two things), which way, where (informal equivalent of dochira)" }, { "ja": "このあいだ", "en": "the other day" }, { "ja": "みんなで", "en": "all together" }, { "ja": "けど", "en": "but (informal equivalent of ga)" }
-      ],
-      "21": [
-        { "ja": "おもいます", "en": "think" }, { "ja": "いいします", "en": "say" }, { "ja": "たります", "en": "be enough, be sufficient" }, { "ja": "かちます", "en": "win" }, { "ja": "まけます", "en": "lose, be beaten" }, { "ja": "あります", "en": "be held, take place (a festival)" }, { "ja": "やくにたちます", "en": "be useful" }, { "ja": "むだ", "en": "wasteful" }, { "ja": "ふべん", "en": "inconvenient" }, { "ja": "おなじ", "en": "the same" }, { "ja": "すごい", "en": "awful, great (expresses astonishment or admiration)" }, { "ja": "しゅしょう", "en": "prime minister" }, { "ja": "だいとうりょう", "en": "president" }, { "ja": "せいじ", "en": "politics" }, { "ja": "ニュース", "en": "news" }, { "ja": "スピーチ", "en": "speech" }, { "ja": "しあい", "en": "game, match" }, { "ja": "アルバイト", "en": "side job" }, { "ja": "いけん", "en": "opinion" }, { "ja": "おはなし", "en": "talk, speech, what one says, story" }, { "ja": "ユーモア", "en": "humor" }, { "ja": "むだ", "en": "waste" }, { "ja": "デザイン", "en": "design" }, { "ja": "こうつう", "en": "transportation, traffic" }, { "ja": "ラッシュ", "en": "rush hour" }, { "ja": "さいきん", "en": "recently, these days" }, { "ja": "たぶん", "en": "probably, perhaps, maybe" }, { "ja": "きっと", "en": "surely" }, { "ja": "ほんとうに", "en": "really" }, { "ja": "そんなに", "en": "not so (used with negatives)" }, { "ja": "について", "en": "about ~, concerning ~" }
-      ],
-      "22": [
-        { "ja": "きます", "en": "put on (a shirt, etc.)" }, { "ja": "はきます", "en": "put on (shoes, trousers, etc.)" }, { "ja": "かぶります", "en": "put on (a hat, etc.)" }, { "ja": "かけます", "en": "put on (glasses)" }, { "ja": "うまれます", "en": "be born" }, { "ja": "コート", "en": "coat" }, { "ja": "スーツ", "en": "suit" }, { "ja": "セーター", "en": "sweater" }, { "ja": "ぼうし", "en": "hat, cap" }, { "ja": "めがね", "en": "glasses" }, { "ja": "よく", "en": "often" }, { "ja": "おめでとうございます", "en": "Congratulations" }, { "ja": "こちら", "en": "this (polite equivalent of kore)" }, { "ja": "やちん", "en": "house rent" }, { "ja": "うーん", "en": "Let me see" }, { "ja": "ダイニングキチン", "en": "kitchen with a dining area" }, { "ja": "わしつ", "en": "Japanese-style room" }, { "ja": "おしいれ", "en": "Japanese-style closet" }, { "ja": "ふとん", "en": "Japanese-style mattress and quilt" }, { "ja": "アパート", "en": "apartment" }
-      ],
-      "23": [
-        { "ja": "ききます", "en": "ask (the teacher)" }, { "ja": "まわします", "en": "turn" }, { "ja": "ひきます", "en": "pull" }, { "ja": "かえます", "en": "change" }, { "ja": "さわります", "en": "touch (a door)" }, { "ja": "でます", "en": "come out (change)" }, { "ja": "あるきます", "en": "walk" }, { "ja": "わたります", "en": "cross (a bridge)" }, { "ja": "まがります", "en": "turn (right)" }, { "ja": "さびしい", "en": "lonely" }, { "ja": "おゆ", "en": "hot water" }, { "ja": "おと", "en": "sound" }, { "ja": "サイズ", "en": "size" }, { "ja": "こしょう", "en": "breakdown" }, { "ja": "みち", "en": "road, way" }, { "ja": "こうさてん", "en": "crossroads" }, { "ja": "しんごう", "en": "traffic light" }, { "ja": "かど", "en": "corner" }, { "ja": "はし", "en": "bridge" }, { "ja": "ちゅうしゃじょう", "en": "parking lot" }, { "ja": "め", "en": "the -th (indicating order)" }, { "ja": "おしょうがつ", "en": "New Year's Day" }
-      ],
-      "24": [
-        { "ja": "くれます", "en": "give (me)" }, { "ja": "なおします", "en": "repair, correct" }, { "ja": "つれていきます", "en": "take (someone)" }, { "ja": "つれてきます", "en": "bring (someone)" }, { "ja": "おくります", "en": "escort (someone), go with" }, { "ja": "しょうかいします", "en": "introduce" }, { "ja": "あんないします", "en": "show around, show the way" }, { "ja": "せつめいします", "en": "explain" }, { "ja": "おじいさん", "en": "grandfather, old man" }, { "ja": "おばあさん", "en": "grandmother, old woman" }, { "ja": "じゅんび", "en": "preparation" }, { "ja": "いみ", "en": "meaning" }, { "ja": "おかし", "en": "sweets, snacks" }, { "ja": "ぜんぶ", "en": "all" }, { "ja": "じぶんで", "en": "by oneself" }, { "ja": "ほかに", "en": "besides" }, { "ja": "ワゴンしゃ", "en": "station wagon" }
-      ],
-      "25": [
-        { "ja": "かんがえます", "en": "think, consider" }, { "ja": "つきます", "en": "arrive (at a station)" }, { "ja": "りゅうがくします", "en": "study abroad" }, { "ja": "とります", "en": "grow old" }, { "ja": "いなか", "en": "countryside, hometown" }, { "ja": "たいしかん", "en": "embassy" }, { "ja": "グループ", "en": "group" }, { "ja": "チャンス", "en": "chance" }, { "ja": "おく", "en": "hundred million" }, { "ja": "もし", "en": "if" }, { "ja": "いくら", "en": "however ~, even if ~" }, { "ja": "てんきん", "en": "transfer" }, { "ja": "こと", "en": "thing, matter" }, { "ja": "がんばります", "en": "do one's best" }, { "ja": "どうぞおげんきで", "en": "Please take care of yourself" }, { "ja": "おせわになりました", "en": "Thank you for everything you have done for me" }
-      ]
-    };
-
-    // DOM DEPENDENT LOGIC
     document.addEventListener('DOMContentLoaded', () => {
 
-        // Theme Toggle Logic
         const themeBtn = document.getElementById('theme-toggle');
         if (themeBtn) {
             themeBtn.addEventListener('click', () => {
@@ -562,7 +489,6 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
             });
         }
 
-        // App Elements
         const screens = {
             menu: document.getElementById('menu-screen'),
             game: document.getElementById('game-screen'),
@@ -608,9 +534,15 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
 
         initMenu();
 
+        function announce(message) {
+            const announcer = document.getElementById('a11y-announcer');
+            if (announcer) {
+                announcer.textContent = message;
+            }
+        }
+
         function initMenu() {
             if (!elements.lessonSelector) return;
-            elements.lessonSelector.innerHTML = '';
             const availableLessons = Object.keys(vocabData).map(Number).sort((a,b) => a-b);
             
             availableLessons.forEach(lessonNum => {
@@ -711,12 +643,12 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
             updateProgress();
             initBoard();
             showScreen('game');
+            announce("Game started. Find the matching pairs.");
         }
 
         function getDynamicBatchSize() {
-            // Hardcoded estimate to avoid querySelector failures if hidden
             const availableHeight = window.innerHeight - 150; 
-            const tileHeight = 80; 
+            const tileHeight = 85; 
             const rows = Math.floor(availableHeight / tileHeight);
             return Math.max(4, Math.min(rows, 7));
         }
@@ -753,7 +685,6 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
             }
             element.style.opacity = '0';
             element.style.transform = 'scale(0.8)';
-            // Force reflow for reliable animation
             void element.offsetWidth;
             setTimeout(() => { element.style.opacity = '1'; element.style.transform = 'scale(1)'; }, 10);
         }
@@ -765,12 +696,10 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
         }
 
         function createTile(pair, type) {
-            const tile = document.createElement('div');
+            const tile = document.createElement('button');
             tile.className = 'tile';
             tile.dataset.type = type;
             tile.dataset.id = pair.id;
-            tile.tabIndex = 0;
-            tile.setAttribute('role', 'button');
 
             if (type === 'ja') {
                 tile.dataset.spokenText = pair.ja;
@@ -784,9 +713,6 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
             }
             
             tile.addEventListener('click', () => handleTileClick(tile));
-            tile.addEventListener('keydown', (e) => {
-                if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleTileClick(tile); }
-            });
             return tile;
         }
 
@@ -795,16 +721,16 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
                 window.speechSynthesis.cancel(); 
                 const utterance = new SpeechSynthesisUtterance(text);
                 utterance.lang = 'ja-JP';
-                utterance.rate = 0.9;
                 window.speechSynthesis.speak(utterance);
             }
         }
 
         function handleTileClick(tile) {
-            if (tile.classList.contains('matched') || tile.classList.contains('disabled') || tile === state.selectedTile) {
+            if (tile.classList.contains('matched') || tile.disabled || tile === state.selectedTile) {
                 if (tile === state.selectedTile) {
                     tile.classList.remove('selected');
                     state.selectedTile = null;
+                    announce("Deselected");
                 }
                 return;
             }
@@ -814,6 +740,7 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
             if (!state.selectedTile) {
                 tile.classList.add('selected');
                 state.selectedTile = tile;
+                announce(`Selected ${tile.textContent}`);
                 return;
             }
 
@@ -824,6 +751,7 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
                 t1.classList.remove('selected');
                 t2.classList.add('selected');
                 state.selectedTile = t2;
+                announce(`Selected ${tile.textContent}`);
                 return;
             }
 
@@ -836,8 +764,12 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
             if (t1.dataset.id === t2.dataset.id) {
                 t1.classList.add('matched');
                 t2.classList.add('matched');
+                t1.disabled = true; 
+                t2.disabled = true;
+                
                 state.matchedPairs++;
                 updateProgress();
+                announce("Correct match!");
                 
                 setTimeout(() => {
                     t1.remove(); t2.remove();
@@ -858,6 +790,7 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
                 }
                 t1.classList.add('wrong');
                 t2.classList.add('wrong');
+                announce("Incorrect match");
                 
                 setTimeout(() => {
                     t1.classList.remove('wrong');
@@ -909,14 +842,13 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
                 elements.bestTime.textContent = formatTime(bestT);
             }
             showScreen('result');
+            announce("Lesson Complete.");
         }
 
-        // Action Listeners
         if (elements.startBtn) elements.startBtn.addEventListener('click', () => startGame(false));
         if (elements.backBtn) elements.backBtn.addEventListener('click', () => modals.quit.classList.add('active'));
         if (elements.playAgainBtn) elements.playAgainBtn.addEventListener('click', () => showScreen('menu'));
 
-        // Modal Listeners
         const modalCancelBtn = document.getElementById('modal-cancel-btn');
         const modalConfirmBtn = document.getElementById('modal-confirm-btn');
         const startReviewBtn = document.getElementById('start-review-btn');
@@ -938,7 +870,7 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
             endGame();
         });
 
-    }); // End DOMContentLoaded
+    });
     </script>
 </body>
 </html>
