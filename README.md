@@ -19,7 +19,7 @@ A simple, interactive web game designed to help Japanese language learners pract
 
 ## ✨ Features
 * **Interactive Gameplay:** Test your memory with randomized vocabulary.
-* **Lightweight & Fast:** Built with pure HTML and JavaScript—no installations required.
+* **Lightweight & Fast:** Built with pure HTML and JavaScript no installations required.
 * **Mobile Friendly:** Play on the go from your phone or desktop browser.
 
 ## 🚀 How to Run Locally
