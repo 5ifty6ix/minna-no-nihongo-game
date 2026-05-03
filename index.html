@@ -532,6 +532,16 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
             isReviewMode: false
         };
 
+        let availableVoices = [];
+        let currentFallbackAudio = null;
+
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.onvoiceschanged = () => {
+                availableVoices = window.speechSynthesis.getVoices();
+            };
+            availableVoices = window.speechSynthesis.getVoices();
+        }
+
         initMenu();
 
         function announce(message) {
@@ -718,10 +728,29 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
 
         function playAudio(text) {
             if ('speechSynthesis' in window) {
-                window.speechSynthesis.cancel(); 
-                const utterance = new SpeechSynthesisUtterance(text);
-                utterance.lang = 'ja-JP';
-                window.speechSynthesis.speak(utterance);
+                const jaVoice = availableVoices.find(voice => voice.lang === 'ja-JP' || voice.lang === 'ja_JP');
+                if (jaVoice) {
+                    window.speechSynthesis.cancel(); 
+                    const utterance = new SpeechSynthesisUtterance(text);
+                    utterance.voice = jaVoice;
+                    utterance.lang = 'ja-JP';
+                    window.speechSynthesis.speak(utterance);
+                    return; 
+                }
+            }
+
+            try {
+                if (currentFallbackAudio) {
+                    currentFallbackAudio.pause();
+                    currentFallbackAudio.currentTime = 0;
+                }
+                const url = `https://translate.google.com/translate_tts?ie=UTF-8&tl=ja&client=tw-ob&q=${encodeURIComponent(text)}`;
+                currentFallbackAudio = new Audio(url);
+                currentFallbackAudio.play().catch(e => {
+                    console.warn('Fallback audio playback failed. The browser might be blocking autoplay.', e);
+                });
+            } catch(e) {
+                console.warn('Error constructing or playing fallback audio.', e);
             }
         }
 
