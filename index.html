@@ -310,8 +310,8 @@ button.primary-btn:disabled {
     background: var(--primary-color);
     border-color: var(--primary-shadow);
     color: white;
-    opacity: 0 !important;
-    transform: scale(0.8) !important;
+    opacity: 0.6; /* Dim to indicate solved */
+    transform: scale(0.98); /* Slightly shrink but keep visible */
     pointer-events: none;
 }
 .tile.matched * { color: white !important; }
@@ -665,18 +665,11 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
             announce("Game started. Find the matching pairs.");
         }
 
-        function getDynamicBatchSize() {
-            const availableHeight = window.innerHeight - 150; 
-            const tileHeight = 85; 
-            const rows = Math.floor(availableHeight / tileHeight);
-            return Math.max(4, Math.min(rows, 7));
-        }
-
         function initBoard() {
             elements.leftCol.innerHTML = '';
             elements.rightCol.innerHTML = '';
             state.selectedTile = null;
-            const batchSize = getDynamicBatchSize();
+            const batchSize = 6; 
             for(let i = 0; i < batchSize && state.poolIndex < state.totalPairs; i++) {
                 addPairToBoard();
             }
@@ -827,17 +820,19 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
                 updateProgress();
                 announce("Correct match!");
                 
+                const unmatchedTiles = document.querySelectorAll('.tile:not(.matched)');
+                
                 setTimeout(() => {
-                    t1.remove(); t2.remove();
-                    const remaining = document.querySelectorAll('.tile');
-                    remaining.forEach(t => t.classList.remove('disabled'));
+                    // Re-enable clicks for the remaining unmatched tiles
+                    unmatchedTiles.forEach(t => t.classList.remove('disabled'));
                     
                     if (state.matchedPairs >= state.totalPairs) {
                         handlePhaseComplete();
-                    } else if (remaining.length === 0) {
+                    } else if (unmatchedTiles.length === 0) {
+                        // The entire board has been solved, generate the next batch
                         initBoard();
                     }
-                }, 300); 
+                }, 500); 
                 
             } else {
                 if (!state.isReviewMode) {
