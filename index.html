@@ -562,40 +562,28 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
 
         function initMenu() {
             if (!elements.lessonSelector) return;
-            const availableCategories = Object.keys(vocabData).sort((a, b) => {
-                const numA = parseInt(a);
-                const numB = parseInt(b);
-                const isNumA = !isNaN(numA) && a.trim().match(/^\d+$/);
-                const isNumB = !isNaN(numB) && b.trim().match(/^\d+$/);
-                if (isNumA && isNumB) return numA - numB;
-                if (isNumA) return -1;
-                if (isNumB) return 1;
-                return a.localeCompare(b);
-            });
+            const availableLessons = Object.keys(vocabData).map(Number).sort((a,b) => a-b);
             
-            availableCategories.forEach(category => {
+            availableLessons.forEach(lessonNum => {
                 const label = document.createElement('label');
                 label.className = 'lesson-checkbox';
                 const checkbox = document.createElement('input');
                 checkbox.type = 'checkbox';
-                checkbox.value = category;
+                checkbox.value = lessonNum;
                 
                 checkbox.addEventListener('change', (e) => {
                     if (e.target.checked) {
-                        state.selectedLessons.add(category);
+                        state.selectedLessons.add(lessonNum);
                         label.classList.add('selected');
                     } else {
-                        state.selectedLessons.delete(category);
+                        state.selectedLessons.delete(lessonNum);
                         label.classList.remove('selected');
                     }
                     elements.startBtn.disabled = state.selectedLessons.size === 0;
                 });
                 
-                const isNumeric = !isNaN(parseInt(category)) && category.trim().match(/^\d+$/);
-                const displayText = isNumeric ? `Lesson ${category}` : category;
-                
                 label.appendChild(checkbox);
-                label.appendChild(document.createTextNode(displayText));
+                label.appendChild(document.createTextNode(`Lesson ${lessonNum}`));
                 elements.lessonSelector.appendChild(label);
             });
         }
