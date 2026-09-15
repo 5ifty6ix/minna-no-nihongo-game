@@ -311,7 +311,7 @@ button.primary-btn:disabled {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    min-height: 68px; 
+    min-height: 64px; 
     word-break: break-word;
     touch-action: manipulation;
 }
@@ -431,7 +431,7 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
         padding: 4px 6px;
         border-radius: 12px;
         border-bottom-width: 3px;
-        font-size: 0.95rem;
+        font-size: 0.92rem;
     }
 }
     </style>
@@ -754,7 +754,9 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
                 state.mistakes = 0;
                 elements.progressBar.classList.remove('review-mode');
             } else {
-                state.currentPool = Array.from(state.weakWords).map(id => state.originalPool.find(p => p.id === id));
+                state.currentPool = Array.from(state.weakWords)
+                    .map(id => state.originalPool.find(p => p.id === id))
+                    .filter(Boolean);
                 state.weakWords.clear();
                 state.reviewMistakes = 0;
                 elements.progressBar.classList.add('review-mode');
@@ -776,8 +778,10 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
             elements.leftCol.innerHTML = '';
             elements.rightCol.innerHTML = '';
             state.selectedTile = null;
-            const batchSize = 6; 
-            for(let i = 0; i < batchSize && state.poolIndex < state.totalPairs; i++) {
+
+            // Stream in 5 pairs to start the board
+            const initialCount = Math.min(5, state.totalPairs);
+            for(let i = 0; i < initialCount; i++) {
                 addPairToBoard();
             }
             shuffleColumn(elements.leftCol);
@@ -803,9 +807,12 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
                 else container.insertBefore(element, children[r]);
             }
             element.style.opacity = '0';
-            element.style.transform = 'scale(0.8)';
+            element.style.transform = 'scale(0.85)';
             void element.offsetWidth;
-            setTimeout(() => { element.style.opacity = '1'; element.style.transform = 'scale(1)'; }, 10);
+            setTimeout(() => { 
+                element.style.opacity = '1'; 
+                element.style.transform = 'scale(1)'; 
+            }, 20);
         }
 
         function shuffleColumn(container) {
@@ -819,6 +826,8 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
             tile.className = 'tile';
             tile.dataset.type = type;
             tile.dataset.id = pair.id;
+            tile.dataset.ja = pair.ja;
+            tile.dataset.en = pair.en;
 
             if (type === 'ja') {
                 tile.dataset.spokenText = pair.kana ? pair.kana : pair.ja;
@@ -842,28 +851,37 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
         function playAudio(text) {
             if (!soundEnabled || !text) return;
 
-            let voices = window.speechSynthesis ? window.speechSynthesis.getVoices() : [];
-            if (voices.length === 0) voices = availableVoices; 
-
-            if ('speechSynthesis' in window && voices.length > 0) {
-                const jaVoice = voices.find(voice => 
-                    voice.lang.toLowerCase() === 'ja-jp' || 
-                    voice.lang.toLowerCase() === 'ja_jp' ||
-                    voice.lang.toLowerCase().startsWith('ja')
-                );
-
-                if (jaVoice) {
-                    window.speechSynthesis.cancel(); 
+            // Reliable Web Speech Synthesis with Japanese locale priority
+            if ('speechSynthesis' in window) {
+                try {
+                    window.speechSynthesis.cancel();
                     const utterance = new SpeechSynthesisUtterance(text);
-                    utterance.voice = jaVoice;
-                    utterance.lang = jaVoice.lang;
-                    utterance.rate = 1.0;
-                    window.utteranceInstance = utterance; 
+                    utterance.lang = 'ja-JP';
+                    utterance.rate = 0.95;
+
+                    let voices = window.speechSynthesis.getVoices();
+                    if (voices.length === 0) voices = availableVoices;
+
+                    if (voices && voices.length > 0) {
+                        const jaVoice = voices.find(voice => 
+                            voice.lang && (
+                                voice.lang.toLowerCase() === 'ja-jp' || 
+                                voice.lang.toLowerCase() === 'ja_jp' ||
+                                voice.lang.toLowerCase().startsWith('ja')
+                            )
+                        );
+                        if (jaVoice) {
+                            utterance.voice = jaVoice;
+                        }
+                    }
+
+                    window.utteranceInstance = utterance;
                     window.speechSynthesis.speak(utterance);
                     return;
-                }
+                } catch(e) {}
             }
 
+            // Fallback audio element
             try {
                 if (currentFallbackAudio) {
                     currentFallbackAudio.pause();
@@ -899,6 +917,7 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
             const t1 = state.selectedTile;
             const t2 = tile;
             
+            // If user clicked two tiles of the same language, just switch selection
             if (t1.dataset.type === t2.dataset.type) {
                 t1.classList.remove('selected');
                 t2.classList.add('selected');
@@ -910,10 +929,15 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
             t1.classList.remove('selected');
             state.selectedTile = null;
 
-            const allTiles = document.querySelectorAll('.tile');
-            allTiles.forEach(t => t.classList.add('disabled'));
+            const jaTile = t1.dataset.type === 'ja' ? t1 : t2;
+            const enTile = t1.dataset.type === 'en' ? t1 : t2;
 
-            if (t1.dataset.id === t2.dataset.id) {
+            // Semantic dictionary check: ensures synonyms and duplicates match fairly
+            const isMatch = state.originalPool.some(item => 
+                item.ja === jaTile.dataset.ja && item.en === enTile.dataset.en
+            );
+
+            if (isMatch) {
                 t1.classList.add('matched');
                 t2.classList.add('matched');
                 t1.disabled = true; 
@@ -923,33 +947,33 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
                 updateProgress();
                 announce("Correct match!");
 
-                // Smoothly fade out, then collapse and remove from layout
+                // Smooth Duolingo-style fade & replenish
                 setTimeout(() => {
                     t1.classList.add('cleared');
                     t2.classList.add('cleared');
+
                     setTimeout(() => {
-                        t1.style.display = 'none';
-                        t2.style.display = 'none';
+                        t1.remove();
+                        t2.remove();
+
+                        // Stream in next pair from queue if words remain
+                        if (state.poolIndex < state.totalPairs) {
+                            addPairToBoard();
+                        }
+
+                        // Check if session completed
+                        if (state.matchedPairs >= state.totalPairs) {
+                            setTimeout(() => {
+                                handlePhaseComplete();
+                            }, 300);
+                        }
                     }, 280);
-                }, 280);
-                
-                const unmatchedTiles = document.querySelectorAll('.tile:not(.matched)');
-                
-                setTimeout(() => {
-                    unmatchedTiles.forEach(t => t.classList.remove('disabled'));
-                    
-                    if (state.matchedPairs >= state.totalPairs) {
-                        handlePhaseComplete();
-                    } else if (unmatchedTiles.length === 0) {
-                        // Batch completed - bring next batch
-                        initBoard();
-                    }
-                }, 550); 
-                
+                }, 260);
+
             } else {
                 if (!state.isReviewMode) {
                     state.mistakes++;
-                    state.weakWords.add(parseInt(t1.dataset.id));
+                    state.weakWords.add(parseInt(jaTile.dataset.id));
                 } else {
                     state.reviewMistakes = (state.reviewMistakes || 0) + 1;
                 }
@@ -961,8 +985,7 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
                 setTimeout(() => {
                     t1.classList.remove('wrong');
                     t2.classList.remove('wrong');
-                    allTiles.forEach(t => { if (!t.classList.contains('matched')) t.classList.remove('disabled'); });
-                }, 500);
+                }, 450);
             }
         }
 
