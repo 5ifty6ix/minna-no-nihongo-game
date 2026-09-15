@@ -373,9 +373,8 @@ button.primary-btn:disabled {
     padding: 15px;
     text-align: center;
 }
-.stat-box h4 { font-size: 0.9rem; opacity: 0.7; margin-bottom: 5px; text-transform: uppercase;}
-.stat-box p { font-size: 1.5rem; font-weight: bold; color: var(--primary-color); margin: 0;}
-.stat-box.high-score p { color: var(--warning-shadow); }
+.stat-box h4 { font-size: 0.85rem; opacity: 0.7; margin-bottom: 6px; text-transform: uppercase;}
+.stat-box p { font-size: 1.45rem; font-weight: bold; color: var(--primary-color); margin: 0;}
 
 footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center; }
 
@@ -486,20 +485,20 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
             <h2 id="result-title">Lesson Complete!</h2>
             <div class="stats-grid">
                 <div class="stat-box">
+                    <h4>Words Completed</h4>
+                    <p id="words-completed">0</p>
+                </div>
+                <div class="stat-box">
                     <h4>Mistakes</h4>
                     <p id="mistake-count">0</p>
                 </div>
                 <div class="stat-box">
-                    <h4>Time</h4>
+                    <h4>Accuracy</h4>
+                    <p id="accuracy-rate">100%</p>
+                </div>
+                <div class="stat-box">
+                    <h4>Time Spent</h4>
                     <p id="time-taken">00:00</p>
-                </div>
-                <div class="stat-box high-score">
-                    <h4>Best Mistakes</h4>
-                    <p id="best-mistakes">--</p>
-                </div>
-                <div class="stat-box high-score">
-                    <h4>Best Time</h4>
-                    <p id="best-time">--:--</p>
                 </div>
             </div>
             <button id="play-again-btn" class="primary-btn">Play Again</button>
@@ -597,10 +596,10 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
             playAgainBtn: document.getElementById('play-again-btn'),
             progressBar: document.getElementById('progress-bar'),
             scoreDisplay: document.getElementById('score'),
+            wordsCompleted: document.getElementById('words-completed'),
             mistakeCount: document.getElementById('mistake-count'),
+            accuracyRate: document.getElementById('accuracy-rate'),
             timeTaken: document.getElementById('time-taken'),
-            bestMistakes: document.getElementById('best-mistakes'),
-            bestTime: document.getElementById('best-time'),
             leftCol: document.getElementById('left-column'),
             rightCol: document.getElementById('right-column'),
             selectAllBtn: document.getElementById('select-all-btn'),
@@ -702,25 +701,6 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
                 [array[i], array[j]] = [array[j], array[i]];
             }
             return array;
-        }
-
-        function getSaveKey() {
-            return 'n5_stats_' + Array.from(state.selectedLessons).sort((a, b) => a - b).join('-');
-        }
-
-        function saveSessionStats(mistakes, timeMs) {
-            const saveKey = getSaveKey();
-            const prevStats = JSON.parse(localStorage.getItem(saveKey));
-            
-            let bestM = mistakes;
-            let bestT = timeMs;
-
-            if (prevStats) {
-                bestM = Math.min(mistakes, prevStats.mistakes);
-                bestT = Math.min(timeMs, prevStats.timeMs);
-            }
-            
-            localStorage.setItem(saveKey, JSON.stringify({ mistakes: bestM, timeMs: bestT }));
         }
 
         function startGame(isReview = false) {
@@ -992,8 +972,6 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
 
         function handlePhaseComplete() {
             if (!state.isReviewMode && state.weakWords.size > 0) {
-                const timeTakenMs = Date.now() - state.startTime;
-                saveSessionStats(state.mistakes, timeTakenMs);
                 modals.review.classList.add('active');
             } else {
                 endGame();
@@ -1008,29 +986,28 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
 
         function endGame() {
             const timeTakenMs = Date.now() - state.startTime;
+            const wordsCount = state.totalPairs;
+            const mistakes = state.isReviewMode ? (state.reviewMistakes || 0) : state.mistakes;
             
+            // Calculate accuracy percentage based on total attempts
+            const totalAttempts = wordsCount + mistakes;
+            const accuracy = totalAttempts > 0 
+                ? Math.round((wordsCount / totalAttempts) * 100) 
+                : 100;
+
+            elements.wordsCompleted.textContent = wordsCount;
+            elements.mistakeCount.textContent = mistakes;
+            elements.accuracyRate.textContent = mistakes === 0 ? "100% 🎯" : `${accuracy}%`;
+            elements.timeTaken.textContent = formatTime(timeTakenMs);
+
             if (!state.isReviewMode) {
-                saveSessionStats(state.mistakes, timeTakenMs);
-                elements.mistakeCount.textContent = state.mistakes;
-                elements.timeTaken.textContent = formatTime(timeTakenMs);
                 elements.resultTitle.textContent = "Lesson Complete!";
             } else {
-                elements.mistakeCount.textContent = state.reviewMistakes || 0;
-                elements.timeTaken.textContent = formatTime(timeTakenMs);
                 elements.resultTitle.textContent = "Review Complete!";
             }
 
-            const saved = JSON.parse(localStorage.getItem(getSaveKey()));
-            if (saved) {
-                elements.bestMistakes.textContent = saved.mistakes;
-                elements.bestTime.textContent = formatTime(saved.timeMs);
-            } else {
-                elements.bestMistakes.textContent = '--';
-                elements.bestTime.textContent = '--:--';
-            }
-
             showScreen('result');
-            announce("Lesson Complete.");
+            announce("Session Complete.");
         }
 
         if (elements.startBtn) elements.startBtn.addEventListener('click', () => startGame(false));
