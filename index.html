@@ -818,7 +818,6 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
 
         // Sound Switcher Handler
         function updateSoundUI() {
-            const isDark = document.documentElement.hasAttribute('data-theme');
             const t = i18n[currentLang];
             if (elements.settingSoundToggle) {
                 elements.settingSoundToggle.textContent = soundEnabled ? t.soundOn : t.soundOff;
@@ -897,9 +896,15 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
                 if (cb) {
                     const num = cb.value;
                     const displayNum = currentLang === 'bn' ? toBanglaNumber(num) : num;
-                    // Replace label text node while preserving input
                     label.lastChild.textContent = `${t.lessonPrefix}${displayNum}`;
                 }
+            });
+
+            // ⚡ INSTANT MID-GAME TILE FLIP:
+            // Immediately update the text on any active meaning tiles currently on screen
+            document.querySelectorAll('.tile[data-type="meaning"]:not(.cleared)').forEach(tile => {
+                const isBn = currentLang === 'bn';
+                tile.textContent = (isBn && tile.dataset.bn) ? tile.dataset.bn : tile.dataset.en;
             });
 
             updateSoundUI();
@@ -934,7 +939,7 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
         }
 
         initMenu();
-        setLanguage(currentLang); // Apply initial saved language
+        setLanguage(currentLang);
 
         function announce(message) {
             const announcer = document.getElementById('a11y-announcer');
@@ -1107,6 +1112,7 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
             tile.dataset.id = pair.id;
             tile.dataset.ja = pair.ja;
             tile.dataset.en = pair.en;
+            tile.dataset.bn = pair.bn || pair.en;
 
             if (type === 'ja') {
                 tile.dataset.spokenText = pair.kana ? pair.kana : pair.ja;
@@ -1116,7 +1122,6 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
                     tile.textContent = pair.ja;
                 }
             } else {
-                // Meaning tile: Displays natural Bangla in 'bn' mode, English in 'en' mode
                 const isBn = currentLang === 'bn';
                 tile.textContent = (isBn && pair.bn) ? pair.bn : pair.en;
             }
@@ -1210,7 +1215,6 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
             const jaTile = t1.dataset.type === 'ja' ? t1 : t2;
             const meaningTile = t1.dataset.type === 'meaning' ? t1 : t2;
 
-            // Semantic check against core dictionary: 100% fair matching in both languages
             const isMatch = state.originalPool.some(item => 
                 item.ja === jaTile.dataset.ja && item.en === meaningTile.dataset.en
             );
@@ -1223,7 +1227,7 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
                 
                 state.matchedPairs++;
                 updateProgress();
-                announce("Correct match!");
+                announce(currentLang === 'bn' ? "সঠিক উত্তর!" : "Correct match!");
 
                 setTimeout(() => {
                     t1.classList.add('cleared');
@@ -1254,7 +1258,7 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
 
                 t1.classList.add('wrong');
                 t2.classList.add('wrong');
-                announce("Incorrect match");
+                announce(currentLang === 'bn' ? "ভুল হয়েছে" : "Incorrect match");
                 
                 setTimeout(() => {
                     t1.classList.remove('wrong');
