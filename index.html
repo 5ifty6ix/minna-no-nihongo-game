@@ -54,7 +54,7 @@
     --tile-selected-border: #1cb0f6;
     --tile-selected-text: #1cb0f6;
     --rt-color: #888888;
-    --font-family: 'Nunito', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    --font-family: 'Nunito', 'Segoe UI', 'Hind Siliguri', 'Noto Sans Bengali', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 [data-theme="dark"] {
@@ -106,11 +106,11 @@ body {
     max-width: 600px;
 }
 .main-title { font-size: 2.2rem; color: var(--primary-color); margin-bottom: 5px; }
-.sub-title { font-size: 1.2rem; opacity: 0.7; margin-bottom: 0; font-weight: normal; }
+.sub-title { font-size: 1.15rem; opacity: 0.75; margin-bottom: 0; font-weight: normal; }
 
 .header-controls {
     position: absolute;
-    top: 0;
+    top: 4px;
     right: 0;
     display: flex;
     gap: 8px;
@@ -131,19 +131,14 @@ body {
 }
 .header-btn:hover { background: var(--tile-hover-bg); }
 .header-btn svg { 
-    width: 20px; 
-    height: 20px; 
+    width: 22px; 
+    height: 22px; 
     stroke: currentColor; 
     fill: none; 
     stroke-width: 2; 
     stroke-linecap: round; 
     stroke-linejoin: round; 
 }
-
-#icon-sun { display: none; }
-#icon-moon { display: block; }
-[data-theme="dark"] #icon-sun { display: block; }
-[data-theme="dark"] #icon-moon { display: none; }
 
 #app {
     width: 100%;
@@ -188,6 +183,7 @@ p { font-size: 1.1rem; margin-bottom: 15px; opacity: 0.8; text-align: center; }
     color: var(--text-color);
     cursor: pointer;
     font-weight: bold;
+    font-family: inherit;
 }
 .small-btn:active { background: var(--tile-hover-bg); transform: translateY(2px); }
 
@@ -260,6 +256,7 @@ button.primary-btn:disabled {
     border-radius: 12px;
     font-weight: bold;
     cursor: pointer;
+    font-family: inherit;
 }
 #back-btn:active { transform: translateY(2px); box-shadow: 0 0 0 var(--tile-shadow); }
 
@@ -323,7 +320,6 @@ button.primary-btn:disabled {
     word-break: break-word;
     touch-action: manipulation;
 }
-/* Furigana & Ruby Typography */
 .tile ruby { 
     ruby-align: center; 
     line-height: 1.25; 
@@ -390,7 +386,7 @@ button.primary-btn:disabled {
     padding: 15px;
     text-align: center;
 }
-.stat-box h4 { font-size: 0.85rem; opacity: 0.7; margin-bottom: 6px; text-transform: uppercase;}
+.stat-box h4 { font-size: 0.85rem; opacity: 0.75; margin-bottom: 6px; text-transform: uppercase;}
 .stat-box p { font-size: 1.45rem; font-weight: bold; color: var(--primary-color); margin: 0;}
 
 footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center; }
@@ -416,7 +412,7 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
     box-shadow: 0 10px 25px rgba(0,0,0,0.2);
 }
 .modal-actions { display: flex; gap: 10px; margin-top: 20px; }
-.modal-actions button { flex: 1; padding: 12px; font-weight: bold; border-radius: 12px; cursor: pointer; border: none; }
+.modal-actions button { flex: 1; padding: 12px; font-weight: bold; border-radius: 12px; cursor: pointer; border: none; font-family: inherit;}
 .btn-cancel {
     background: transparent;
     color: var(--text-color);
@@ -434,6 +430,66 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
     box-shadow: 0 4px 0 var(--warning-shadow);
 }
 .btn-review:active { transform: translateY(4px); box-shadow: 0 0 0 var(--warning-shadow); }
+
+/* --- Settings Menu Modal --- */
+.settings-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin: 20px 0;
+    text-align: left;
+}
+.settings-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 14px;
+    background: var(--bg-color);
+    border: 2px solid var(--tile-border);
+    border-radius: 14px;
+}
+.settings-label {
+    font-weight: bold;
+    font-size: 1.05rem;
+    color: var(--text-color);
+}
+.segmented-btn-group {
+    display: flex;
+    background: var(--tile-bg);
+    border: 2px solid var(--tile-border);
+    border-radius: 12px;
+    overflow: hidden;
+}
+.seg-btn {
+    border: none;
+    background: transparent;
+    color: var(--text-color);
+    padding: 6px 12px;
+    font-weight: bold;
+    font-size: 0.95rem;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.2s;
+}
+.seg-btn.active {
+    background: var(--primary-color);
+    color: white;
+}
+.setting-action-btn {
+    border: 2px solid var(--tile-border);
+    background: var(--tile-bg);
+    color: var(--text-color);
+    padding: 6px 14px;
+    border-radius: 12px;
+    font-weight: bold;
+    font-size: 0.95rem;
+    cursor: pointer;
+    font-family: inherit;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+.setting-action-btn:active { background: var(--tile-hover-bg); }
 
 @media (max-width: 480px) {
     body { padding: 10px; }
@@ -455,16 +511,15 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
 <body>
     <header class="global-header">
         <h1 class="main-title">みんなの日本語</h1>
-        <h2 class="sub-title">Vocabulary Matching</h2>
+        <h2 id="header-subtitle" class="sub-title">Vocabulary Matching</h2>
         
         <div class="header-controls">
-            <button id="sound-toggle" class="header-btn" aria-label="Toggle Sound">
-                <svg id="icon-sound-on" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
-                <svg id="icon-sound-off" style="display:none;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
-            </button>
-            <button id="theme-toggle" class="header-btn" aria-label="Toggle Theme">
-                <svg id="icon-sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
-                <svg id="icon-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+            <button id="menu-btn" class="header-btn" aria-label="Settings">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
             </button>
         </div>
     </header>
@@ -473,7 +528,7 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
         <div id="a11y-announcer" class="sr-only" aria-live="polite"></div>
 
         <div id="menu-screen" class="screen active">
-            <p>Select lessons to practice:</p>
+            <p id="menu-instruction">Select lessons to practice:</p>
             <div class="menu-controls">
                 <button id="select-all-btn" class="small-btn">Select All</button>
                 <button id="clear-all-btn" class="small-btn">Clear</button>
@@ -502,19 +557,19 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
             <h2 id="result-title">Lesson Complete!</h2>
             <div class="stats-grid">
                 <div class="stat-box">
-                    <h4>Words Completed</h4>
+                    <h4 id="stat-words-label">Words Completed</h4>
                     <p id="words-completed">0</p>
                 </div>
                 <div class="stat-box">
-                    <h4>Mistakes</h4>
+                    <h4 id="stat-mistakes-label">Mistakes</h4>
                     <p id="mistake-count">0</p>
                 </div>
                 <div class="stat-box">
-                    <h4>Accuracy</h4>
+                    <h4 id="stat-accuracy-label">Accuracy</h4>
                     <p id="accuracy-rate">100%</p>
                 </div>
                 <div class="stat-box">
-                    <h4>Time Spent</h4>
+                    <h4 id="stat-time-label">Time Spent</h4>
                     <p id="time-taken">00:00</p>
                 </div>
             </div>
@@ -522,10 +577,36 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
         </div>
     </div>
 
+    <!-- Settings Modal -->
+    <div id="settings-modal" class="modal-overlay">
+        <div class="modal">
+            <h3 id="settings-modal-title" style="margin-bottom: 5px; font-size: 1.4rem; color: var(--text-color);">Settings</h3>
+            <div class="settings-list">
+                <div class="settings-item">
+                    <span id="label-lang" class="settings-label">Language</span>
+                    <div class="segmented-btn-group">
+                        <button id="lang-btn-en" class="seg-btn active">English</button>
+                        <button id="lang-btn-bn" class="seg-btn">বাংলা</button>
+                    </div>
+                </div>
+                <div class="settings-item">
+                    <span id="label-sound" class="settings-label">Sound</span>
+                    <button id="setting-sound-toggle" class="setting-action-btn">🔊 On</button>
+                </div>
+                <div class="settings-item">
+                    <span id="label-theme" class="settings-label">Theme</span>
+                    <button id="setting-theme-toggle" class="setting-action-btn">🌙 Dark</button>
+                </div>
+            </div>
+            <button id="settings-close-btn" class="primary-btn" style="max-width: 100%; padding: 10px;">Done</button>
+        </div>
+    </div>
+
+    <!-- Quit Modal -->
     <div id="quit-modal" class="modal-overlay">
         <div class="modal">
-            <h3 style="margin-bottom: 10px; font-size: 1.5rem; color: var(--text-color);">Quit Session?</h3>
-            <p style="color: var(--text-color);">Your progress will be lost.</p>
+            <h3 id="quit-modal-title" style="margin-bottom: 10px; font-size: 1.5rem; color: var(--text-color);">Quit Session?</h3>
+            <p id="quit-modal-desc" style="color: var(--text-color);">Your progress will be lost.</p>
             <div class="modal-actions">
                 <button id="modal-cancel-btn" class="btn-cancel">Cancel</button>
                 <button id="modal-confirm-btn" class="btn-confirm">Quit</button>
@@ -533,10 +614,11 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
         </div>
     </div>
 
+    <!-- Review Modal -->
     <div id="review-modal" class="modal-overlay">
         <div class="modal">
-            <h3 style="margin-bottom: 10px; font-size: 1.5rem; color: var(--warning-shadow);">Review Weak Words</h3>
-            <p style="color: var(--text-color);">You made some mistakes. Let's practice those words again to lock them in!</p>
+            <h3 id="review-modal-title" style="margin-bottom: 10px; font-size: 1.5rem; color: var(--warning-shadow);">Review Weak Words</h3>
+            <p id="review-modal-desc" style="color: var(--text-color);">You made some mistakes. Let's practice those words again to lock them in!</p>
             <div class="modal-actions">
                 <button id="skip-review-btn" class="btn-cancel">Skip</button>
                 <button id="start-review-btn" class="btn-review">Review Now</button>
@@ -545,7 +627,7 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
     </div>
 
     <footer style="margin-bottom: 25px; text-align: center; font-size: 0.95rem; opacity: 0.85;">
-        <div>Developed by: <strong>Abdullah Gazi</strong></div>
+        <div><span id="footer-dev-label">Developed by:</span> <strong>Abdullah Gazi</strong></div>
         <div style="margin-top: 8px;">
             <a href="https://wa.me/8801605696443" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; font-weight: bold; padding: 6px 12px; border-radius: 8px; border: 1px solid var(--tile-border); background: var(--tile-bg); transition: 0.2s;">
                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
@@ -562,46 +644,87 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
     <script>
     document.addEventListener('DOMContentLoaded', () => {
 
-        // --- Theme Toggle ---
-        const themeBtn = document.getElementById('theme-toggle');
-        if (themeBtn) {
-            themeBtn.addEventListener('click', () => {
-                const isDark = document.documentElement.hasAttribute('data-theme');
-                if (isDark) {
-                    document.documentElement.removeAttribute('data-theme');
-                    localStorage.setItem('theme', 'light');
-                } else {
-                    document.documentElement.setAttribute('data-theme', 'dark');
-                    localStorage.setItem('theme', 'dark');
-                }
-            });
-        }
-
-        // --- Sound Toggle ---
-        let soundEnabled = localStorage.getItem('sound_enabled') !== 'false';
-        const soundBtn = document.getElementById('sound-toggle');
-        const soundOnIcon = document.getElementById('icon-sound-on');
-        const soundOffIcon = document.getElementById('icon-sound-off');
-
-        function updateSoundUI() {
-            if (soundEnabled) {
-                if (soundOnIcon) soundOnIcon.style.display = 'block';
-                if (soundOffIcon) soundOffIcon.style.display = 'none';
-            } else {
-                if (soundOnIcon) soundOnIcon.style.display = 'none';
-                if (soundOffIcon) soundOffIcon.style.display = 'block';
+        // --- Conversational Natural Localization (i18n) ---
+        const i18n = {
+            en: {
+                subtitle: "Vocabulary Matching",
+                instruction: "Select lessons to practice:",
+                selectAll: "Select All",
+                clear: "Clear",
+                lessonPrefix: "Lesson ",
+                startPractice: "Start Practice",
+                exit: "Exit",
+                wordsCompleted: "Words Completed",
+                mistakes: "Mistakes",
+                accuracy: "Accuracy",
+                timeSpent: "Time Spent",
+                playAgain: "Play Again",
+                lessonComplete: "Lesson Complete!",
+                lessonReviewComplete: "Lesson & Review Complete! 🌟",
+                settings: "Settings",
+                langLabel: "Language",
+                soundLabel: "Sound",
+                themeLabel: "Theme",
+                done: "Done",
+                quitTitle: "Quit Session?",
+                quitDesc: "Your progress will be lost.",
+                cancel: "Cancel",
+                quit: "Quit",
+                reviewTitle: "Review Weak Words",
+                reviewDesc: "You made some mistakes. Let's practice those words again to lock them in!",
+                skip: "Skip",
+                reviewNow: "Review Now",
+                devBy: "Developed by:",
+                soundOn: "🔊 On",
+                soundOff: "🔇 Off",
+                themeDark: "🌙 Dark",
+                themeLight: "☀️ Light"
+            },
+            bn: {
+                subtitle: "শব্দ মেলানোর খেলা",
+                instruction: "প্র্যাকটিসের জন্য লেসন সিলেক্ট করুন:",
+                selectAll: "সব সিলেক্ট",
+                clear: "ক্লিয়ার",
+                lessonPrefix: "লেসন ",
+                startPractice: "প্র্যাকটিস শুরু করুন",
+                exit: "বের হন",
+                wordsCompleted: "কমপ্লিট শব্দ",
+                mistakes: "ভুল",
+                accuracy: "অ্যাকুরেসি",
+                timeSpent: "সময়",
+                playAgain: "আবার খেলুন",
+                lessonComplete: "লেসন কমপ্লিট! 🎉",
+                lessonReviewComplete: "লেসন ও রিভিও কমপ্লিট! 🌟",
+                settings: "সেটিংস",
+                langLabel: "ভাষা",
+                soundLabel: "সাউন্ড",
+                themeLabel: "থিম",
+                done: "ঠিক আছে",
+                quitTitle: "বের হয়ে যাবেন?",
+                quitDesc: "এখন বের হলে আপনার প্রগ্রেস সেভ হবে না।",
+                cancel: "থাক",
+                quit: "বের হন",
+                reviewTitle: "ভুল শব্দগুলো রিভিও করুন",
+                reviewDesc: "কিছু শব্দে ভুল হয়েছে। চলুন সেগুলো আরেকবার রিভিও করে নিই!",
+                skip: "স্কিপ",
+                reviewNow: "এখনই রিভিও করুন",
+                devBy: "নির্মাতা:",
+                soundOn: "🔊 অন",
+                soundOff: "🔇 অফ",
+                themeDark: "🌙 ডার্ক",
+                themeLight: "☀️ লাইট"
             }
-        }
-        updateSoundUI();
+        };
 
-        if (soundBtn) {
-            soundBtn.addEventListener('click', () => {
-                soundEnabled = !soundEnabled;
-                localStorage.setItem('sound_enabled', soundEnabled);
-                updateSoundUI();
-            });
+        const bnNumbers = ['০','১','২','৩','৪','৫','৬','৭','৮','৯'];
+        function toBanglaNumber(num) {
+            return num.toString().split('').map(c => bnNumbers[c] || c).join('');
         }
 
+        let currentLang = localStorage.getItem('app_lang') || 'en';
+        let soundEnabled = localStorage.getItem('sound_enabled') !== 'false';
+
+        // --- DOM Elements ---
         const screens = {
             menu: document.getElementById('menu-screen'),
             game: document.getElementById('game-screen'),
@@ -609,6 +732,8 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
         };
         
         const elements = {
+            headerSubtitle: document.getElementById('header-subtitle'),
+            menuInstruction: document.getElementById('menu-instruction'),
             lessonSelector: document.getElementById('lesson-selector'),
             startBtn: document.getElementById('start-btn'),
             backBtn: document.getElementById('back-btn'),
@@ -623,14 +748,165 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
             rightCol: document.getElementById('right-column'),
             selectAllBtn: document.getElementById('select-all-btn'),
             clearAllBtn: document.getElementById('clear-all-btn'),
-            resultTitle: document.getElementById('result-title')
+            resultTitle: document.getElementById('result-title'),
+            statWordsLabel: document.getElementById('stat-words-label'),
+            statMistakesLabel: document.getElementById('stat-mistakes-label'),
+            statAccuracyLabel: document.getElementById('stat-accuracy-label'),
+            statTimeLabel: document.getElementById('stat-time-label'),
+            footerDevLabel: document.getElementById('footer-dev-label'),
+            // Settings Modal Elements
+            menuBtn: document.getElementById('menu-btn'),
+            settingsModal: document.getElementById('settings-modal'),
+            settingsCloseBtn: document.getElementById('settings-close-btn'),
+            settingsTitle: document.getElementById('settings-modal-title'),
+            labelLang: document.getElementById('label-lang'),
+            labelSound: document.getElementById('label-sound'),
+            labelTheme: document.getElementById('label-theme'),
+            langBtnEn: document.getElementById('lang-btn-en'),
+            langBtnBn: document.getElementById('lang-btn-bn'),
+            settingSoundToggle: document.getElementById('setting-sound-toggle'),
+            settingThemeToggle: document.getElementById('setting-theme-toggle'),
+            // Quit Modal Elements
+            quitModalTitle: document.getElementById('quit-modal-title'),
+            quitModalDesc: document.getElementById('quit-modal-desc'),
+            modalCancelBtn: document.getElementById('modal-cancel-btn'),
+            modalConfirmBtn: document.getElementById('modal-confirm-btn'),
+            // Review Modal Elements
+            reviewModalTitle: document.getElementById('review-modal-title'),
+            reviewModalDesc: document.getElementById('review-modal-desc'),
+            skipReviewBtn: document.getElementById('skip-review-btn'),
+            startReviewBtn: document.getElementById('start-review-btn')
         };
         
         const modals = {
+            settings: document.getElementById('settings-modal'),
             quit: document.getElementById('quit-modal'),
             review: document.getElementById('review-modal')
         };
 
+        // --- Settings Menu & Controls ---
+        if (elements.menuBtn) {
+            elements.menuBtn.addEventListener('click', () => {
+                modals.settings.classList.add('active');
+            });
+        }
+
+        if (elements.settingsCloseBtn) {
+            elements.settingsCloseBtn.addEventListener('click', () => {
+                modals.settings.classList.remove('active');
+            });
+        }
+
+        // Language Switcher Handlers
+        function setLanguage(lang) {
+            currentLang = lang;
+            localStorage.setItem('app_lang', lang);
+
+            if (lang === 'bn') {
+                elements.langBtnBn.classList.add('active');
+                elements.langBtnEn.classList.remove('active');
+            } else {
+                elements.langBtnEn.classList.add('active');
+                elements.langBtnBn.classList.remove('active');
+            }
+
+            applyLanguageUI();
+        }
+
+        if (elements.langBtnEn) elements.langBtnEn.addEventListener('click', () => setLanguage('en'));
+        if (elements.langBtnBn) elements.langBtnBn.addEventListener('click', () => setLanguage('bn'));
+
+        // Sound Switcher Handler
+        function updateSoundUI() {
+            const isDark = document.documentElement.hasAttribute('data-theme');
+            const t = i18n[currentLang];
+            if (elements.settingSoundToggle) {
+                elements.settingSoundToggle.textContent = soundEnabled ? t.soundOn : t.soundOff;
+            }
+        }
+
+        if (elements.settingSoundToggle) {
+            elements.settingSoundToggle.addEventListener('click', () => {
+                soundEnabled = !soundEnabled;
+                localStorage.setItem('sound_enabled', soundEnabled);
+                updateSoundUI();
+            });
+        }
+
+        // Theme Switcher Handler
+        function updateThemeUI() {
+            const isDark = document.documentElement.hasAttribute('data-theme');
+            const t = i18n[currentLang];
+            if (elements.settingThemeToggle) {
+                elements.settingThemeToggle.textContent = isDark ? t.themeDark : t.themeLight;
+            }
+        }
+
+        if (elements.settingThemeToggle) {
+            elements.settingThemeToggle.addEventListener('click', () => {
+                const isDark = document.documentElement.hasAttribute('data-theme');
+                if (isDark) {
+                    document.documentElement.removeAttribute('data-theme');
+                    localStorage.setItem('theme', 'light');
+                } else {
+                    document.documentElement.setAttribute('data-theme', 'dark');
+                    localStorage.setItem('theme', 'dark');
+                }
+                updateThemeUI();
+            });
+        }
+
+        function applyLanguageUI() {
+            const t = i18n[currentLang];
+
+            elements.headerSubtitle.textContent = t.subtitle;
+            elements.menuInstruction.textContent = t.instruction;
+            elements.selectAllBtn.textContent = t.selectAll;
+            elements.clearAllBtn.textContent = t.clear;
+            elements.startBtn.textContent = t.startPractice;
+            elements.backBtn.textContent = t.exit;
+            elements.statWordsLabel.textContent = t.wordsCompleted;
+            elements.statMistakesLabel.textContent = t.mistakes;
+            elements.statAccuracyLabel.textContent = t.accuracy;
+            elements.statTimeLabel.textContent = t.timeSpent;
+            elements.playAgainBtn.textContent = t.playAgain;
+            elements.footerDevLabel.textContent = t.devBy;
+
+            // Settings Modal
+            elements.settingsTitle.textContent = t.settings;
+            elements.labelLang.textContent = t.langLabel;
+            elements.labelSound.textContent = t.soundLabel;
+            elements.labelTheme.textContent = t.themeLabel;
+            elements.settingsCloseBtn.textContent = t.done;
+
+            // Quit Modal
+            elements.quitModalTitle.textContent = t.quitTitle;
+            elements.quitModalDesc.textContent = t.quitDesc;
+            elements.modalCancelBtn.textContent = t.cancel;
+            elements.modalConfirmBtn.textContent = t.quit;
+
+            // Review Modal
+            elements.reviewModalTitle.textContent = t.reviewTitle;
+            elements.reviewModalDesc.textContent = t.reviewDesc;
+            elements.skipReviewBtn.textContent = t.skip;
+            elements.startReviewBtn.textContent = t.reviewNow;
+
+            // Update Lesson Checkbox labels
+            document.querySelectorAll('.lesson-checkbox').forEach(label => {
+                const cb = label.querySelector('input');
+                if (cb) {
+                    const num = cb.value;
+                    const displayNum = currentLang === 'bn' ? toBanglaNumber(num) : num;
+                    // Replace label text node while preserving input
+                    label.lastChild.textContent = `${t.lessonPrefix}${displayNum}`;
+                }
+            });
+
+            updateSoundUI();
+            updateThemeUI();
+        }
+
+        // --- Game State ---
         let state = {
             selectedLessons: new Set(),
             currentPool: [],
@@ -658,6 +934,7 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
         }
 
         initMenu();
+        setLanguage(currentLang); // Apply initial saved language
 
         function announce(message) {
             const announcer = document.getElementById('a11y-announcer');
@@ -689,7 +966,8 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
                 });
                 
                 label.appendChild(checkbox);
-                label.appendChild(document.createTextNode(`Lesson ${lessonNum}`));
+                const displayNum = currentLang === 'bn' ? toBanglaNumber(lessonNum) : lessonNum;
+                label.appendChild(document.createTextNode(`${i18n[currentLang].lessonPrefix}${displayNum}`));
                 elements.lessonSelector.appendChild(label);
             });
         }
@@ -736,7 +1014,8 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
                                 id: globalId++,
                                 ja: item.ja.trim(),
                                 kana: item.kana ? item.kana.trim() : null,
-                                en: item.en.trim()
+                                en: item.en.trim(),
+                                bn: item.bn ? item.bn.trim() : item.en.trim()
                             });
                         });
                     }
@@ -772,7 +1051,7 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
             updateProgress();
             initBoard();
             showScreen('game');
-            announce(isReview ? "Review started. Match your weak words." : "Game started. Find the matching pairs.");
+            announce(currentLang === 'bn' ? "প্র্যাকটিস শুরু হয়েছে।" : "Game started.");
         }
 
         function initBoard() {
@@ -793,9 +1072,9 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
             const pair = state.currentPool[state.poolIndex];
             state.poolIndex++;
             const jaTile = createTile(pair, 'ja');
-            const enTile = createTile(pair, 'en');
+            const meaningTile = createTile(pair, 'meaning');
             insertRandomly(elements.leftCol, jaTile);
-            insertRandomly(elements.rightCol, enTile);
+            insertRandomly(elements.rightCol, meaningTile);
         }
 
         function insertRandomly(container, element) {
@@ -837,7 +1116,9 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
                     tile.textContent = pair.ja;
                 }
             } else {
-                tile.textContent = pair.en;
+                // Meaning tile: Displays natural Bangla in 'bn' mode, English in 'en' mode
+                const isBn = currentLang === 'bn';
+                tile.textContent = (isBn && pair.bn) ? pair.bn : pair.en;
             }
             
             tile.addEventListener('click', () => handleTileClick(tile));
@@ -927,10 +1208,11 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
             state.selectedTile = null;
 
             const jaTile = t1.dataset.type === 'ja' ? t1 : t2;
-            const enTile = t1.dataset.type === 'en' ? t1 : t2;
+            const meaningTile = t1.dataset.type === 'meaning' ? t1 : t2;
 
+            // Semantic check against core dictionary: 100% fair matching in both languages
             const isMatch = state.originalPool.some(item => 
-                item.ja === jaTile.dataset.ja && item.en === enTile.dataset.en
+                item.ja === jaTile.dataset.ja && item.en === meaningTile.dataset.en
             );
 
             if (isMatch) {
@@ -1010,15 +1292,16 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
                 ? Math.round((wordsCount / totalAttempts) * 100) 
                 : 100;
 
+            const t = i18n[currentLang];
             elements.wordsCompleted.textContent = wordsCount;
             elements.mistakeCount.textContent = mistakes;
             elements.accuracyRate.textContent = mistakes === 0 ? "100% 🎯" : `${accuracy}%`;
             elements.timeTaken.textContent = formatTime(timeTakenMs);
 
             if (state.isReviewMode) {
-                elements.resultTitle.textContent = "Lesson & Review Complete! 🌟";
+                elements.resultTitle.textContent = t.lessonReviewComplete;
             } else {
-                elements.resultTitle.textContent = "Lesson Complete!";
+                elements.resultTitle.textContent = t.lessonComplete;
             }
 
             showScreen('result');
@@ -1029,23 +1312,18 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
         if (elements.backBtn) elements.backBtn.addEventListener('click', () => modals.quit.classList.add('active'));
         if (elements.playAgainBtn) elements.playAgainBtn.addEventListener('click', () => showScreen('menu'));
 
-        const modalCancelBtn = document.getElementById('modal-cancel-btn');
-        const modalConfirmBtn = document.getElementById('modal-confirm-btn');
-        const startReviewBtn = document.getElementById('start-review-btn');
-        const skipReviewBtn = document.getElementById('skip-review-btn');
-
-        if (modalCancelBtn) modalCancelBtn.addEventListener('click', () => modals.quit.classList.remove('active'));
-        if (modalConfirmBtn) modalConfirmBtn.addEventListener('click', () => {
+        if (elements.modalCancelBtn) elements.modalCancelBtn.addEventListener('click', () => modals.quit.classList.remove('active'));
+        if (elements.modalConfirmBtn) elements.modalConfirmBtn.addEventListener('click', () => {
             modals.quit.classList.remove('active');
             showScreen('menu');
         });
         
-        if (startReviewBtn) startReviewBtn.addEventListener('click', () => {
+        if (elements.startReviewBtn) elements.startReviewBtn.addEventListener('click', () => {
             modals.review.classList.remove('active');
             startGame(true);
         });
         
-        if (skipReviewBtn) skipReviewBtn.addEventListener('click', () => {
+        if (elements.skipReviewBtn) elements.skipReviewBtn.addEventListener('click', () => {
             modals.review.classList.remove('active');
             endGame();
         });
