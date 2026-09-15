@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download App Icons</title>
+    <style>
+        body {
+            background-color: #131f24;
+            color: #ffffff;
+            font-family: sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+        canvas {
+            border-radius: 36px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            margin-bottom: 25px;
+            max-width: 200px;
+            height: auto;
+        }
+        .btn-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            width: 100%;
+            max-width: 280px;
+        }
+        button {
+            background: #58cc02;
+            color: #ffffff;
+            border: none;
+            border-radius: 14px;
+            padding: 14px 20px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 0 #46a302;
+            transition: all 0.1s;
+        }
+        button:active {
+            transform: translateY(4px);
+            box-shadow: 0 0 0 #46a302;
+        }
+    </style>
+</head>
+<body>
+    <h2 style="color: #58cc02; margin-bottom: 8px;">Minna N5 Icon</h2>
+    <p style="opacity: 0.7; margin-bottom: 20px;">Tap below to download your PWA icons:</p>
+    
+    <canvas id="preview" width="512" height="512"></canvas>
+    
+    <div class="btn-container">
+        <button onclick="downloadIcon(192, 'icon-192.png')">📥 Download icon-192.png</button>
+        <button onclick="downloadIcon(512, 'icon-512.png')">📥 Download icon-512.png</button>
+    </div>
+
+    <script>
+        function render(canvas, size) {
+            canvas.width = size;
+            canvas.height = size;
+            const ctx = canvas.getContext('2d');
+
+            // 1. App Background (#58cc02)
+            ctx.fillStyle = '#58cc02';
+            ctx.beginPath();
+            ctx.roundRect(0, 0, size, size, size * 0.22);
+            ctx.fill();
+
+            // 2. White 3D Card
+            const pad = size * 0.14;
+            const cardSize = size - (pad * 2);
+            const radius = size * 0.16;
+
+            // Card Shadow
+            ctx.fillStyle = '#e5e5e5';
+            ctx.beginPath();
+            ctx.roundRect(pad, pad + (size * 0.04), cardSize, cardSize, radius);
+            ctx.fill();
+
+            // Card Top
+            ctx.fillStyle = '#ffffff';
+            ctx.beginPath();
+            ctx.roundRect(pad, pad, cardSize, cardSize, radius);
+            ctx.fill();
+
+            // 3. Japanese Hiragana 'あ'
+            ctx.fillStyle = '#58cc02';
+            ctx.font = `bold ${Math.floor(size * 0.44)}px sans-serif, 'Hiragino Sans'`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('あ', size / 2, size / 2 - (size * 0.01));
+        }
+
+        // Render preview
+        render(document.getElementById('preview'), 512);
+
+        // Download handler
+        function downloadIcon(size, filename) {
+            const canvas = document.createElement('canvas');
+            render(canvas, size);
+            const a = document.createElement('a');
+            a.download = filename;
+            a.href = canvas.toDataURL('image/png');
+            a.click();
+        }
+    </script>
+</body>
+</html>
