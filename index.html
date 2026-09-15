@@ -14,7 +14,13 @@
       gtag('config', 'G-7R9BVC2FSX');
     </script>
     
+    <!-- PWA & Mobile Meta Tags -->
     <meta name="theme-color" content="#58cc02">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Minna N5">
+    <meta name="description" content="Minna no Nihongo N5 Vocabulary Matching Practice Game">
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="icon-192.png">
 
@@ -47,6 +53,7 @@
     --tile-selected-bg: #ddf4ff;
     --tile-selected-border: #1cb0f6;
     --tile-selected-text: #1cb0f6;
+    --rt-color: #888888;
     --font-family: 'Nunito', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
@@ -61,6 +68,7 @@
     --tile-selected-bg: rgba(28, 176, 246, 0.15);
     --tile-selected-border: #1cb0f6;
     --tile-selected-text: #32c4ff;
+    --rt-color: #9aaab2;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -300,7 +308,7 @@ button.primary-btn:disabled {
     border: 2px solid var(--tile-border);
     border-bottom-width: 4px;
     border-radius: 16px;
-    padding: 8px;
+    padding: 8px 6px;
     text-align: center;
     font-size: clamp(0.85rem, 1.8vw + 0.4rem, 1.15rem);
     font-weight: bold;
@@ -315,8 +323,17 @@ button.primary-btn:disabled {
     word-break: break-word;
     touch-action: manipulation;
 }
-.tile ruby { ruby-align: center; }
-.tile rt { font-size: 0.6em; color: #888; font-weight: normal; }
+/* Furigana & Ruby Typography */
+.tile ruby { 
+    ruby-align: center; 
+    line-height: 1.25; 
+}
+.tile rt { 
+    font-size: 0.58em; 
+    color: var(--rt-color); 
+    font-weight: normal; 
+    user-select: none;
+}
 
 .tile:focus-visible { outline: 3px solid var(--primary-color); outline-offset: 2px; }
 .tile:active:not(.disabled) { transform: translateY(2px) scale(0.98); border-bottom-width: 2px; }
@@ -545,6 +562,7 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
     <script>
     document.addEventListener('DOMContentLoaded', () => {
 
+        // --- Theme Toggle ---
         const themeBtn = document.getElementById('theme-toggle');
         if (themeBtn) {
             themeBtn.addEventListener('click', () => {
@@ -559,6 +577,7 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
             });
         }
 
+        // --- Sound Toggle ---
         let soundEnabled = localStorage.getItem('sound_enabled') !== 'false';
         const soundBtn = document.getElementById('sound-toggle');
         const soundOnIcon = document.getElementById('icon-sound-on');
@@ -707,7 +726,7 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
         function startGame(isReview = false) {
             state.isReviewMode = isReview;
             if (!isReview) {
-                state.sessionStartTime = Date.now(); // Start overall session timer
+                state.sessionStartTime = Date.now();
                 state.originalPool = [];
                 let globalId = 0;
                 state.selectedLessons.forEach(lessonNum => {
@@ -761,7 +780,6 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
             elements.rightCol.innerHTML = '';
             state.selectedTile = null;
 
-            // Load a batch of up to 6 pairs
             const batchSize = 6;
             for(let i = 0; i < batchSize && state.poolIndex < state.totalPairs; i++) {
                 addPairToBoard();
@@ -911,7 +929,6 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
             const jaTile = t1.dataset.type === 'ja' ? t1 : t2;
             const enTile = t1.dataset.type === 'en' ? t1 : t2;
 
-            // Semantic dictionary check: ensures synonyms and duplicates match fairly
             const isMatch = state.originalPool.some(item => 
                 item.ja === jaTile.dataset.ja && item.en === enTile.dataset.en
             );
@@ -926,7 +943,6 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
                 updateProgress();
                 announce("Correct match!");
 
-                // Smooth fade-out of matched tiles
                 setTimeout(() => {
                     t1.classList.add('cleared');
                     t2.classList.add('cleared');
@@ -936,14 +952,12 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
                     }, 280);
                 }, 260);
 
-                // Check remaining unmatched tiles in the current batch
                 const remainingInBatch = document.querySelectorAll('.tile:not(.matched)');
 
                 setTimeout(() => {
                     if (state.matchedPairs >= state.totalPairs) {
                         handlePhaseComplete();
                     } else if (remainingInBatch.length === 0) {
-                        // Current 6 words completed! Bring in the next clean page
                         initBoard();
                     }
                 }, 520);
@@ -987,14 +1001,10 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
         }
 
         function endGame() {
-            // Overall cumulative session time (main lesson + review)
             const timeTakenMs = Date.now() - (state.sessionStartTime || state.startTime);
-            
-            // Words completed reflects the full lesson
             const wordsCount = state.originalPool.length || state.totalPairs;
             const mistakes = state.mistakes;
             
-            // Calculate accuracy percentage based on total lesson attempts
             const totalAttempts = wordsCount + mistakes;
             const accuracy = totalAttempts > 0 
                 ? Math.round((wordsCount / totalAttempts) * 100) 
@@ -1041,6 +1051,15 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
         });
 
     });
+
+    // --- Service Worker Registration for Offline PWA ---
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('./sw.js')
+                .then(reg => console.log('PWA Service Worker ready:', reg.scope))
+                .catch(err => console.log('Service Worker setup error:', err));
+        });
+    }
     </script>
 </body>
 </html>
