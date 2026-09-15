@@ -5,14 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Minna No Nihongo N5 Practice</title>
 
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7R9BVC2FSX"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-7R9BVC2FSX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
 
-  gtag('config', 'G-7R9BVC2FSX');
-</script>
+      gtag('config', 'G-7R9BVC2FSX');
+    </script>
     
     <meta name="theme-color" content="#58cc02">
     <link rel="manifest" href="manifest.json">
@@ -90,28 +90,47 @@ body {
     border-width: 0;
 }
 
-.global-header { text-align: center; margin-bottom: 20px; position: relative; width: 100%; max-width: 600px;}
+.global-header { 
+    text-align: center; 
+    margin-bottom: 20px; 
+    position: relative; 
+    width: 100%; 
+    max-width: 600px;
+}
 .main-title { font-size: 2.2rem; color: var(--primary-color); margin-bottom: 5px; }
 .sub-title { font-size: 1.2rem; opacity: 0.7; margin-bottom: 0; font-weight: normal; }
 
-.theme-toggle-btn {
+.header-controls {
     position: absolute;
     top: 0;
     right: 0;
+    display: flex;
+    gap: 8px;
+}
+
+.header-btn {
     background: transparent;
     border: 2px solid var(--tile-border);
     color: var(--text-color);
     border-radius: 50%;
-    width: 44px;
-    height: 44px;
+    width: 42px;
+    height: 42px;
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
     transition: all 0.2s;
 }
-.theme-toggle-btn:hover { background: var(--tile-hover-bg); }
-.theme-toggle-btn svg { width: 20px; height: 20px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.header-btn:hover { background: var(--tile-hover-bg); }
+.header-btn svg { 
+    width: 20px; 
+    height: 20px; 
+    stroke: currentColor; 
+    fill: none; 
+    stroke-width: 2; 
+    stroke-linecap: round; 
+    stroke-linejoin: round; 
+}
 
 #icon-sun { display: none; }
 #icon-moon { display: block; }
@@ -281,18 +300,18 @@ button.primary-btn:disabled {
     border: 2px solid var(--tile-border);
     border-bottom-width: 4px;
     border-radius: 16px;
-    padding: 10px;
+    padding: 8px;
     text-align: center;
-    font-size: clamp(0.9rem, 2vw + 0.5rem, 1.2rem);
+    font-size: clamp(0.85rem, 1.8vw + 0.4rem, 1.15rem);
     font-weight: bold;
     cursor: pointer;
-    transition: all 0.1s, opacity 0.3s, transform 0.3s;
+    transition: all 0.15s, opacity 0.3s, transform 0.3s;
     user-select: none;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    min-height: 85px; 
+    min-height: 68px; 
     word-break: break-word;
     touch-action: manipulation;
 }
@@ -310,11 +329,15 @@ button.primary-btn:disabled {
     background: var(--primary-color);
     border-color: var(--primary-shadow);
     color: white;
-    opacity: 0.6; /* Dim to indicate solved */
-    transform: scale(0.98); /* Slightly shrink but keep visible */
     pointer-events: none;
 }
 .tile.matched * { color: white !important; }
+.tile.matched.cleared {
+    opacity: 0 !important;
+    visibility: hidden;
+    transform: scale(0.85);
+    transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+}
 .tile.wrong {
     background: rgba(255, 75, 75, 0.15);
     border-color: var(--danger-shadow);
@@ -389,6 +412,22 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
     box-shadow: 0 4px 0 var(--warning-shadow);
 }
 .btn-review:active { transform: translateY(4px); box-shadow: 0 0 0 var(--warning-shadow); }
+
+@media (max-width: 480px) {
+    body { padding: 10px; }
+    .global-header { margin-bottom: 12px; }
+    .main-title { font-size: 1.8rem; }
+    .sub-title { font-size: 1rem; }
+    .header { margin-bottom: 12px; }
+    .column { gap: 8px; }
+    .tile {
+        min-height: 52px;
+        padding: 4px 6px;
+        border-radius: 12px;
+        border-bottom-width: 3px;
+        font-size: 0.95rem;
+    }
+}
     </style>
 </head>
 <body>
@@ -396,10 +435,16 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
         <h1 class="main-title">みんなの日本語</h1>
         <h2 class="sub-title">Vocabulary Matching</h2>
         
-        <button id="theme-toggle" class="theme-toggle-btn" aria-label="Toggle Theme">
-            <svg id="icon-sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
-            <svg id="icon-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
-        </button>
+        <div class="header-controls">
+            <button id="sound-toggle" class="header-btn" aria-label="Toggle Sound">
+                <svg id="icon-sound-on" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+                <svg id="icon-sound-off" style="display:none;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
+            </button>
+            <button id="theme-toggle" class="header-btn" aria-label="Toggle Theme">
+                <svg id="icon-sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+                <svg id="icon-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+            </button>
+        </div>
     </header>
 
     <div id="app">
@@ -498,6 +543,30 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
             });
         }
 
+        let soundEnabled = localStorage.getItem('sound_enabled') !== 'false';
+        const soundBtn = document.getElementById('sound-toggle');
+        const soundOnIcon = document.getElementById('icon-sound-on');
+        const soundOffIcon = document.getElementById('icon-sound-off');
+
+        function updateSoundUI() {
+            if (soundEnabled) {
+                if (soundOnIcon) soundOnIcon.style.display = 'block';
+                if (soundOffIcon) soundOffIcon.style.display = 'none';
+            } else {
+                if (soundOnIcon) soundOnIcon.style.display = 'none';
+                if (soundOffIcon) soundOffIcon.style.display = 'block';
+            }
+        }
+        updateSoundUI();
+
+        if (soundBtn) {
+            soundBtn.addEventListener('click', () => {
+                soundEnabled = !soundEnabled;
+                localStorage.setItem('sound_enabled', soundEnabled);
+                updateSoundUI();
+            });
+        }
+
         const screens = {
             menu: document.getElementById('menu-screen'),
             game: document.getElementById('game-screen'),
@@ -535,6 +604,7 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
             totalPairs: 0,
             matchedPairs: 0,
             mistakes: 0,
+            reviewMistakes: 0,
             selectedTile: null,
             startTime: 0,
             poolIndex: 0,
@@ -617,6 +687,25 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
             return array;
         }
 
+        function getSaveKey() {
+            return 'n5_stats_' + Array.from(state.selectedLessons).sort((a, b) => a - b).join('-');
+        }
+
+        function saveSessionStats(mistakes, timeMs) {
+            const saveKey = getSaveKey();
+            const prevStats = JSON.parse(localStorage.getItem(saveKey));
+            
+            let bestM = mistakes;
+            let bestT = timeMs;
+
+            if (prevStats) {
+                bestM = Math.min(mistakes, prevStats.mistakes);
+                bestT = Math.min(timeMs, prevStats.timeMs);
+            }
+            
+            localStorage.setItem(saveKey, JSON.stringify({ mistakes: bestM, timeMs: bestT }));
+        }
+
         function startGame(isReview = false) {
             state.isReviewMode = isReview;
             if (!isReview) {
@@ -650,6 +739,7 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
             } else {
                 state.currentPool = Array.from(state.weakWords).map(id => state.originalPool.find(p => p.id === id));
                 state.weakWords.clear();
+                state.reviewMistakes = 0;
                 elements.progressBar.classList.add('review-mode');
             }
 
@@ -728,14 +818,17 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
             return tile;
         }
 
+        function sanitizeForSpeech(text) {
+            return text.replace(/[〜~［］\[\]\(\)（）]/g, '').trim();
+        }
+
         function playAudio(text) {
-            // 1. Force Chrome to fetch voices right NOW, just in case it was "lazy" on load
-            let voices = window.speechSynthesis.getVoices();
+            if (!soundEnabled || !text) return;
+
+            let voices = window.speechSynthesis ? window.speechSynthesis.getVoices() : [];
             if (voices.length === 0) voices = availableVoices; 
 
-            // 2. Try Native TTS with a much more aggressive, Chrome-friendly search
             if ('speechSynthesis' in window && voices.length > 0) {
-                // Look for anything that starts with 'ja' (case-insensitive)
                 const jaVoice = voices.find(voice => 
                     voice.lang.toLowerCase() === 'ja-jp' || 
                     voice.lang.toLowerCase() === 'ja_jp' ||
@@ -744,21 +837,16 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
 
                 if (jaVoice) {
                     window.speechSynthesis.cancel(); 
-                    
                     const utterance = new SpeechSynthesisUtterance(text);
                     utterance.voice = jaVoice;
-                    utterance.lang = jaVoice.lang; // Give Chrome back its exact tag
-                    utterance.rate = 1.0; // Explicitly setting rate helps Android Chrome
-                    
-                    // Attach to window to prevent Chrome's aggressive garbage collection from cutting audio off
+                    utterance.lang = jaVoice.lang;
+                    utterance.rate = 1.0;
                     window.utteranceInstance = utterance; 
-
                     window.speechSynthesis.speak(utterance);
-                    return; // Exit the function! Native audio worked.
+                    return;
                 }
             }
 
-            // 3. Fallback to Google Translate URL (Only reached if native truly fails)
             try {
                 if (currentFallbackAudio) {
                     currentFallbackAudio.pause();
@@ -766,12 +854,8 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
                 }
                 const url = `https://translate.google.com/translate_tts?ie=UTF-8&tl=ja&client=tw-ob&q=${encodeURIComponent(text)}`;
                 currentFallbackAudio = new Audio(url);
-                currentFallbackAudio.play().catch(e => {
-                    console.warn('Fallback audio playback failed.', e);
-                });
-            } catch(e) {
-                console.warn('Error constructing fallback audio.', e);
-            }
+                currentFallbackAudio.play().catch(() => {});
+            } catch(e) {}
         }
 
         function handleTileClick(tile) {
@@ -784,7 +868,9 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
                 return;
             }
 
-            if (tile.dataset.type === 'ja') playAudio(tile.dataset.spokenText);
+            if (tile.dataset.type === 'ja') {
+                playAudio(sanitizeForSpeech(tile.dataset.spokenText));
+            }
 
             if (!state.selectedTile) {
                 tile.classList.add('selected');
@@ -819,17 +905,20 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
                 state.matchedPairs++;
                 updateProgress();
                 announce("Correct match!");
+
+                setTimeout(() => {
+                    t1.classList.add('cleared');
+                    t2.classList.add('cleared');
+                }, 300);
                 
                 const unmatchedTiles = document.querySelectorAll('.tile:not(.matched)');
                 
                 setTimeout(() => {
-                    // Re-enable clicks for the remaining unmatched tiles
                     unmatchedTiles.forEach(t => t.classList.remove('disabled'));
                     
                     if (state.matchedPairs >= state.totalPairs) {
                         handlePhaseComplete();
                     } else if (unmatchedTiles.length === 0) {
-                        // The entire board has been solved, generate the next batch
                         initBoard();
                     }
                 }, 500); 
@@ -838,7 +927,10 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
                 if (!state.isReviewMode) {
                     state.mistakes++;
                     state.weakWords.add(parseInt(t1.dataset.id));
+                } else {
+                    state.reviewMistakes = (state.reviewMistakes || 0) + 1;
                 }
+
                 t1.classList.add('wrong');
                 t2.classList.add('wrong');
                 announce("Incorrect match");
@@ -858,6 +950,8 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
 
         function handlePhaseComplete() {
             if (!state.isReviewMode && state.weakWords.size > 0) {
+                const timeTakenMs = Date.now() - state.startTime;
+                saveSessionStats(state.mistakes, timeTakenMs);
                 modals.review.classList.add('active');
             } else {
                 endGame();
@@ -872,26 +966,27 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
 
         function endGame() {
             const timeTakenMs = Date.now() - state.startTime;
-            elements.mistakeCount.textContent = state.mistakes;
-            elements.timeTaken.textContent = formatTime(timeTakenMs);
-            elements.resultTitle.textContent = state.isReviewMode ? "Review Complete!" : "Lesson Complete!";
-
+            
             if (!state.isReviewMode) {
-                const saveKey = 'n5_stats_' + Array.from(state.selectedLessons).sort().join('-');
-                const prevStats = JSON.parse(localStorage.getItem(saveKey));
-                
-                let bestM = state.mistakes;
-                let bestT = timeTakenMs;
-
-                if (prevStats) {
-                    bestM = Math.min(state.mistakes, prevStats.mistakes);
-                    bestT = Math.min(timeTakenMs, prevStats.timeMs);
-                }
-                
-                localStorage.setItem(saveKey, JSON.stringify({ mistakes: bestM, timeMs: bestT }));
-                elements.bestMistakes.textContent = bestM;
-                elements.bestTime.textContent = formatTime(bestT);
+                saveSessionStats(state.mistakes, timeTakenMs);
+                elements.mistakeCount.textContent = state.mistakes;
+                elements.timeTaken.textContent = formatTime(timeTakenMs);
+                elements.resultTitle.textContent = "Lesson Complete!";
+            } else {
+                elements.mistakeCount.textContent = state.reviewMistakes || 0;
+                elements.timeTaken.textContent = formatTime(timeTakenMs);
+                elements.resultTitle.textContent = "Review Complete!";
             }
+
+            const saved = JSON.parse(localStorage.getItem(getSaveKey()));
+            if (saved) {
+                elements.bestMistakes.textContent = saved.mistakes;
+                elements.bestTime.textContent = formatTime(saved.timeMs);
+            } else {
+                elements.bestMistakes.textContent = '--';
+                elements.bestTime.textContent = '--:--';
+            }
+
             showScreen('result');
             announce("Lesson Complete.");
         }
