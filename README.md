@@ -1,7 +1,7 @@
 # 🇯🇵 Minna no Nihongo - Vocabulary Game
 
 ![GitHub Pages](https://img.shields.io/badge/Deployed_on-GitHub_Pages-success?logo=github)
-![License](https://img.shields.io/github/license/5ifty6ix/minna-no-nihongo-game)
+[![License: CC BY-NC 4.0](https://img.shields.io/badge/License-CC_BY--NC_4.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc/4.0/)
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat&logo=html5&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/JavaScript-323330?style=flat&logo=javascript&logoColor=F7DF1E)
 
