@@ -3,8 +3,8 @@
 [![Deployed on GitHub Pages](https://img.shields.io/badge/Deployed_on-GitHub_Pages-success?logo=github)](https://5ifty6ix.github.io/minna-no-nihongo-game/)
 [![License: CC BY-NC 4.0](https://img.shields.io/badge/License-CC_BY--NC_4.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc/4.0/)
 [![JLPT: N5](https://img.shields.io/badge/JLPT-N5-orange.svg)]()
-![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat&logo=html5&logoColor=white)
-![JavaScript](https://img.shields.io/badge/JavaScript-323330?style=flat&logo=javascript&logoColor=F7DF1E)
+[![PWA: Offline Ready](https://img.shields.io/badge/PWA-Offline_Ready-blue?logo=pwa)]()
+[![Languages: EN & BN](https://img.shields.io/badge/Languages-EN%20%7C%20%E0%A6%AC%E0%A6%BE%E0%A6%82%E0%A6%B2%E0%A6%BE-brightgreen)]()
 
 An interactive, Duolingo-style vocabulary matching game designed to help Japanese language learners practice and master vocabulary from the **Minna no Nihongo (みんなの日本語) Shokyu I** textbook (Lessons 1–25).
 
@@ -24,14 +24,15 @@ An interactive, Duolingo-style vocabulary matching game designed to help Japanes
 
 ## ✨ Key Features
 
-- 🎮 **Tactile Matching Gameplay:** Snappy 3D tile press effects, smooth match animations, and instant feedback.
-- 🔊 **Audio Pronunciation:** Tap Japanese words to hear clear spoken readings out loud to reinforce listening and speaking.
-- 🔁 **Smart "Review Weak Words" Loop:** If you make mistakes during a session, the app automatically isolates missed words and lets you replay them immediately to lock them in.
-- 🈁 **Furigana Reading Aids:** Words display helpful kana readings above kanji so beginners can read without getting stuck.
+- 🎮 **Tactile Matching Gameplay:** Snappy 3D tile press effects, smooth match animations, page-by-page batches, and fair semantic validation for synonyms.
+- 🌐 **Bilingual Support (English & বাংলা):** Seamless 1-tap switch between English and natural, conversational Bengali across all vocabulary tiles and app interfaces.
+- 📴 **Offline PWA Ready:** Install directly to your smartphone's home screen as a standalone mobile app and play anywhere without an internet connection.
+- 🔊 **Audio Pronunciation:** Tap Japanese tiles to hear clear native speech readings out loud to reinforce listening and speaking.
+- 🔁 **Smart "Review Weak Words" Loop:** Automatically catches missed words and prompts you to replay them immediately so you master them before moving on.
+- 🈁 **Comprehensive Kanji & Furigana:** Every word across all 25 lessons features standard N5 Kanji paired with clear phonetic readings.
 - 📚 **Custom Lesson Selection:** Practice a single chapter or mix and match any combination of Lessons 1 through 25.
-- 🌓 **Dark & Light Modes:** Easy one-click theme switcher with automatic detection of your device's system preferences.
-- ⏱️ **Personal Bests & Progress Tracking:** Automatically records your fastest times and lowest mistake counts for every lesson combination.
-- 📱 **Fast & Mobile Ready:** Plays smoothly on mobile, tablet, or desktop with no downloads, accounts, or installations required.
+- ⚙️ **Minimalist Settings Menu:** A single clean settings drawer to adjust language, sound, and theme (Dark/Light mode) without screen clutter.
+- 📊 **Meaningful Learning Stats:** Evaluates your real session progress with words completed, mistake count, percentage accuracy, and time spent.
 
 ---
 
@@ -39,9 +40,10 @@ An interactive, Duolingo-style vocabulary matching game designed to help Japanes
 
 | Category | Details |
 | :--- | :--- |
-| **Textbook** | *Minna no Nihongo Shokyu I (2nd Edition)* |
+| **Textbook** | *Minna no Nihongo Shokyu I (2nd / 3rd Edition)* |
 | **Proficiency** | **JLPT N5** |
-| **Content** | Lessons 1 to 25 (Nouns, Verbs, Adjectives, Expressions, Counters) |
+| **Content** | Lessons 1 to 25 (~1,000 core words across nouns, verbs, adjectives, counters, and expressions) |
+| **Meanings** | English & Bengali (বাংলা) |
 
 ---
 
