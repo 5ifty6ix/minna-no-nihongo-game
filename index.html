@@ -779,9 +779,9 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
             elements.rightCol.innerHTML = '';
             state.selectedTile = null;
 
-            // Stream in 5 pairs to start the board
-            const initialCount = Math.min(5, state.totalPairs);
-            for(let i = 0; i < initialCount; i++) {
+            // Load a batch of up to 6 pairs
+            const batchSize = 6;
+            for(let i = 0; i < batchSize && state.poolIndex < state.totalPairs; i++) {
                 addPairToBoard();
             }
             shuffleColumn(elements.leftCol);
@@ -851,7 +851,6 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
         function playAudio(text) {
             if (!soundEnabled || !text) return;
 
-            // Reliable Web Speech Synthesis with Japanese locale priority
             if ('speechSynthesis' in window) {
                 try {
                     window.speechSynthesis.cancel();
@@ -881,7 +880,6 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
                 } catch(e) {}
             }
 
-            // Fallback audio element
             try {
                 if (currentFallbackAudio) {
                     currentFallbackAudio.pause();
@@ -917,7 +915,6 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
             const t1 = state.selectedTile;
             const t2 = tile;
             
-            // If user clicked two tiles of the same language, just switch selection
             if (t1.dataset.type === t2.dataset.type) {
                 t1.classList.remove('selected');
                 t2.classList.add('selected');
@@ -947,28 +944,27 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
                 updateProgress();
                 announce("Correct match!");
 
-                // Smooth Duolingo-style fade & replenish
+                // Smooth fade-out of matched tiles
                 setTimeout(() => {
                     t1.classList.add('cleared');
                     t2.classList.add('cleared');
-
                     setTimeout(() => {
                         t1.remove();
                         t2.remove();
-
-                        // Stream in next pair from queue if words remain
-                        if (state.poolIndex < state.totalPairs) {
-                            addPairToBoard();
-                        }
-
-                        // Check if session completed
-                        if (state.matchedPairs >= state.totalPairs) {
-                            setTimeout(() => {
-                                handlePhaseComplete();
-                            }, 300);
-                        }
                     }, 280);
                 }, 260);
+
+                // Check remaining unmatched tiles in the current batch
+                const remainingInBatch = document.querySelectorAll('.tile:not(.matched)');
+
+                setTimeout(() => {
+                    if (state.matchedPairs >= state.totalPairs) {
+                        handlePhaseComplete();
+                    } else if (remainingInBatch.length === 0) {
+                        // Current 6 words completed! Bring in the next clean page
+                        initBoard();
+                    }
+                }, 520);
 
             } else {
                 if (!state.isReviewMode) {
