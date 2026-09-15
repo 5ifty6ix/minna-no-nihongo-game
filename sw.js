@@ -1,12 +1,12 @@
-const CACHE_NAME = 'minna-n5-v6';
+const CACHE_NAME = 'minna-n5-v7';
 
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
   './vocab.js',
   './manifest.json',
-  './icon-192.png',
-  './icon-512.png'
+  './icon/icon-192.png',
+  './icon/icon-512.png'
 ];
 
 // Install: Cache all core assets and activate immediately
