@@ -52,7 +52,7 @@
 </head>
 <body>
     <h2 style="color: #58cc02; margin-bottom: 8px;">Minna N5 Icon</h2>
-    <p style="opacity: 0.7; margin-bottom: 20px;">Tap below to download your PWA icons:</p>
+    <p style="opacity: 0.7; margin-bottom: 20px;">Tap below to download your circular icons:</p>
     
     <canvas id="preview" width="512" height="512"></canvas>
     
@@ -67,38 +67,39 @@
             canvas.height = size;
             const ctx = canvas.getContext('2d');
 
-            // 1. App Background (#58cc02)
+            // 1. Outer App Background (#58cc02)
             ctx.fillStyle = '#58cc02';
             ctx.beginPath();
             ctx.roundRect(0, 0, size, size, size * 0.22);
             ctx.fill();
 
-            // 2. White 3D Card
-            const pad = size * 0.14;
-            const cardSize = size - (pad * 2);
-            const radius = size * 0.16;
+            // 2. White 3D Circle
+            const centerX = size / 2;
+            const centerY = size / 2;
+            const radius = size * 0.36;
+            const shadowOffset = size * 0.035;
 
-            // Card Shadow
-            ctx.fillStyle = '#e5e5e5';
+            // Circle 3D Shadow
+            ctx.fillStyle = '#e0e0e0';
             ctx.beginPath();
-            ctx.roundRect(pad, pad + (size * 0.04), cardSize, cardSize, radius);
+            ctx.arc(centerX, centerY + shadowOffset, radius, 0, Math.PI * 2);
             ctx.fill();
 
-            // Card Top
+            // Pure White Circle Face
             ctx.fillStyle = '#ffffff';
             ctx.beginPath();
-            ctx.roundRect(pad, pad, cardSize, cardSize, radius);
+            ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
             ctx.fill();
 
             // 3. Japanese Hiragana 'あ'
             ctx.fillStyle = '#58cc02';
-            ctx.font = `bold ${Math.floor(size * 0.44)}px sans-serif, 'Hiragino Sans'`;
+            ctx.font = `bold ${Math.floor(size * 0.42)}px sans-serif, 'Hiragino Sans'`;
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
-            ctx.fillText('あ', size / 2, size / 2 - (size * 0.01));
+            ctx.fillText('あ', centerX, centerY - (size * 0.01));
         }
 
-        // Render preview
+        // Render preview on page load
         render(document.getElementById('preview'), 512);
 
         // Download handler
