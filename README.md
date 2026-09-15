@@ -12,13 +12,16 @@ An interactive, Duolingo-style vocabulary matching game designed to help Japanes
 
 ---
 
-<p align="center">
-  <img src="https://github.com/user-attachments/assets/e0f2b105-1735-4de6-8d89-c384b34f4580" width="48%" alt="Lesson Selector Screen" />
-  <img src="https://github.com/user-attachments/assets/c86a74ff-66b1-4e3d-8010-898eeb43dc10" width="48%" alt="Matching Gameplay" />
-  <br><br>
-  <img src="https://github.com/user-attachments/assets/83cb0c6d-b55b-4e2a-9d66-33df4ffb5c5a" width="48%" alt="Review Weak Words Modal" />
-  <img src="https://github.com/user-attachments/assets/15c37a6b-b356-43c9-98c1-c485f0fabeb9" width="48%" alt="Session Results & Best Records" />
-</p>
+<div align="center">
+
+| ☀️ Light Mode (English) | 🌙 Dark Mode (বাংলা) |
+| :---: | :---: |
+| <img src="./screenshots/Home-Light-EN.jpg" width="100%" alt="Home Screen (Light EN)" /><br><sub><b>Home Screen</b></sub> | <img src="./screenshots/Home-Dark-BN.jpg" width="100%" alt="Home Screen (Dark BN)" /><br><sub><b>হোম স্ক্রিন</b></sub> |
+| <img src="./screenshots/Menu-Light-EN.jpg" width="100%" alt="Settings Menu (Light EN)" /><br><sub><b>Settings Menu</b></sub> | <img src="./screenshots/Menu-Dark-BN.jpg" width="100%" alt="Settings Menu (Dark BN)" /><br><sub><b>সেটিংস মেনু</b></sub> |
+| <img src="./screenshots/Playing-Light-EN.jpg" width="100%" alt="Gameplay (Light EN)" /><br><sub><b>Gameplay</b></sub> | <img src="./screenshots/Playing-Dark-BN.jpg" width="100%" alt="Gameplay (Dark BN)" /><br><sub><b>গেমপ্লে</b></sub> |
+| <img src="./screenshots/Result-Light-EN.jpg" width="100%" alt="Results (Light EN)" /><br><sub><b>Results & Accuracy</b></sub> | <img src="./screenshots/Result-Dark-BN.jpg" width="100%" alt="Results (Dark BN)" /><br><sub><b>ফলাফল ও অ্যাকুরেসি</b></sub> |
+
+</div>
 
 ---
 
