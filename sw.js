@@ -1,4 +1,4 @@
-const CACHE_NAME = 'minna-n5-v4';
+const CACHE_NAME = 'minna-n5-v1';
 
 const ASSETS_TO_CACHE = [
   './',
