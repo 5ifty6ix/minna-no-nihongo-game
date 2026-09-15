@@ -52,21 +52,26 @@ If you want to run the project locally on your computer:
 1. **Clone the repository:**
    ```bash
    git clone https://github.com/5ifty6ix/minna-no-nihongo-game.git
+   ```
+2. **Open the folder:**
+   ```bash
+   cd minna-no-nihongo-game
+   ```
+3. **Play in your browser:**  
+   Double-click `index.html` to start practicing immediately.
 
-2.  Open the folder:
-    cd minna-no-nihongo-game
-3.  Play in your browser: Double-click index.html to start practicing
-    immediately.
+---
 
-👨‍💻 Author
+## 👨‍💻 Author
 
-Developed with ❤️ by Abdullah Gazi
+Developed with ❤️ by **Abdullah Gazi**
 
-  - GitHub: @5ifty6ix
-  - WhatsApp: Chat on WhatsApp
+- GitHub: [@5ifty6ix](https://github.com/5ifty6ix)
+- WhatsApp: [Chat on WhatsApp](https://wa.me/8801605696443)
 
-📄 License
+---
 
-This project is licensed under the Creative Commons
-Attribution-NonCommercial 4.0 International License (CC BY-NC 4.0).
-See the LICENSE file for complete details.
+## 📄 License
+
+This project is licensed under the **Creative Commons Attribution-NonCommercial 4.0 International License (CC BY-NC 4.0)**.  
+See the [LICENSE](LICENSE) file for complete details.
