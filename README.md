@@ -1,29 +1,82 @@
-# 🇯🇵 Minna no Nihongo - Vocabulary Game
+# 🇯🇵 Minna no Nihongo — N5 Vocabulary Matcher
 
-![GitHub Pages](https://img.shields.io/badge/Deployed_on-GitHub_Pages-success?logo=github)
+[![Deployed on GitHub Pages](https://img.shields.io/badge/Deployed_on-GitHub_Pages-success?logo=github)](https://5ifty6ix.github.io/minna-no-nihongo-game/)
 [![License: CC BY-NC 4.0](https://img.shields.io/badge/License-CC_BY--NC_4.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc/4.0/)
+[![JLPT: N5](https://img.shields.io/badge/JLPT-N5-orange.svg)]()
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat&logo=html5&logoColor=white)
+![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=flat&logo=css3&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/JavaScript-323330?style=flat&logo=javascript&logoColor=F7DF1E)
+[![PWA Ready](https://img.shields.io/badge/PWA-Ready-blue?logo=pwa)]()
 
-A simple, interactive web game designed to help Japanese language learners practice and test their vocabulary based on the popular textbook, *Minna no Nihongo*. 
+An interactive, Duolingo-style web vocabulary game designed to help Japanese language learners practice and master vocabulary from the **Minna no Nihongo (みんなの日本語) Shokyu I** textbook (Lessons 1–25).
 
-🎮 **[Play the Game Here](https://5ifty6ix.github.io/minna-no-nihongo-game/)**
+🎮 **[Play Live Demo Here](https://5ifty6ix.github.io/minna-no-nihongo-game/)**
+
+---
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/e0f2b105-1735-4de6-8d89-c384b34f4580" width="45%" alt="Gameplay Screenshot 1" />
-  <img src="https://github.com/user-attachments/assets/c86a74ff-66b1-4e3d-8010-898eeb43dc10" width="45%" alt="Gameplay Screenshot 2" />
-  <br>
-  <img src="https://github.com/user-attachments/assets/83cb0c6d-b55b-4e2a-9d66-33df4ffb5c5a" width="45%" alt="Gameplay Screenshot 3" />
-  <img src="https://github.com/user-attachments/assets/15c37a6b-b356-43c9-98c1-c485f0fabeb9" width="45%" alt="Gameplay Screenshot 4" />
+  <img src="https://github.com/user-attachments/assets/e0f2b105-1735-4de6-8d89-c384b34f4580" width="48%" alt="Lesson Selector Screen" />
+  <img src="https://github.com/user-attachments/assets/c86a74ff-66b1-4e3d-8010-898eeb43dc10" width="48%" alt="Matching Gameplay" />
+  <br><br>
+  <img src="https://github.com/user-attachments/assets/83cb0c6d-b55b-4e2a-9d66-33df4ffb5c5a" width="48%" alt="Review Weak Words Modal" />
+  <img src="https://github.com/user-attachments/assets/15c37a6b-b356-43c9-98c1-c485f0fabeb9" width="48%" alt="Session Results & Best Records" />
 </p>
 
+---
+
 ## ✨ Features
-* **Interactive Gameplay:** Test your memory with randomized vocabulary.
-* **Lightweight & Fast:** Built with pure HTML and JavaScript no installations required.
-* **Mobile Friendly:** Play on the go from your phone or desktop browser.
+
+- 🎮 **Tactile Duolingo-Style Gameplay:** Snappy 3D tile press effects, real-time match validation, and satisfying animations.
+- 🔊 **Native Japanese Audio Pronunciation:** Built-in Web Speech Synthesis API audio with automatic fallback to hear native Japanese readings on tap.
+- 🔁 **Smart Weak-Words Review Mode:** If you make mistakes during a session, the app automatically isolates missed vocabulary and lets you re-test them immediately.
+- 📚 **Comprehensive N5 Coverage:** Full vocabulary sets for **Lessons 1 through 25** with custom lesson-by-lesson selection.
+- 🈁 **Furigana Support:** Built with `<ruby>` and `<rt>` HTML elements for proper Japanese typographic pronunciation hints.
+- 🌓 **Dark & Light Mode:** Toggle themes with seamless transitions and automatic system-preference detection (`prefers-color-scheme`).
+- ⏱️ **Personal Best & Stats Tracking:** Tracks completion time, total mistakes, and stores your all-time best records per lesson combo using `localStorage`.
+- ♿ **Accessibility Built-In:** Features an `aria-live` screen-reader live announcer and visible focus outlines for full keyboard navigation.
+- 📱 **Responsive & Zero-Dependency:** 100% vanilla JavaScript, HTML, and CSS—no build steps, no heavy node modules, fast loading on any mobile or desktop device.
+
+---
+
+## 📖 Curriculum Covered
+
+| Category | Description |
+| :--- | :--- |
+| **Source** | *Minna no Nihongo Shokyu I (2nd Edition)* |
+| **JLPT Level** | **JLPT N5** |
+| **Lessons** | Lessons 1 to 25 (Nouns, Verbs, Adjectives, Expressions, Counters) |
+
+---
 
 ## 🚀 How to Run Locally
-If you want to download and run this on your own machine:
-1. Clone the repository:
-   `git clone https://github.com/5ifty6ix/minna-no-nihongo-game.git`
-2. Open the folder and double-click `index.html` to open it in your browser.
+
+No installations or local servers are required:
+
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/5ifty6ix/minna-no-nihongo-game.git
+
+2.  Navigate into the directory:
+    cd minna-no-nihongo-game
+3.  Open in browser: Double-click index.html or open it with your favorite
+    browser.
+
+🛠️ Built With
+
+  - HTML5 — Semantic layout, <ruby> annotations, dialog modals
+  - CSS3 — Custom CSS properties (variables), Grid, Flexbox, keyframe animations
+  - JavaScript (ES6+) — Web Speech Synthesis, DOM manipulation, LocalStorage API
+  - GitHub Pages — Continuous static hosting
+
+👨‍💻 Author
+
+Developed with ❤️ by Abdullah Gazi
+
+  - GitHub: @5ifty6ix
+  - WhatsApp: Chat on WhatsApp
+
+📄 License
+
+This project is licensed under the Creative Commons
+Attribution-NonCommercial 4.0 International License (CC BY-NC 4.0).
+See the LICENSE file for complete details.
