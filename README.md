@@ -14,12 +14,56 @@ An interactive, Duolingo-style vocabulary matching game designed to help Japanes
 
 <div align="center">
 
-| ☀️ Light Mode (English) | 🌙 Dark Mode (বাংলা) |
-| :---: | :---: |
-| <img src="./screenshots/Home-Light-EN.jpg" width="90%" alt="Home Screen (Light EN)" /><br><sub><b>Home Screen</b></sub> | <img src="./screenshots/Home-Dark-BN.jpg" width="90%" alt="Home Screen (Dark BN)" /><br><sub><b>হোম স্ক্রিন</b></sub> |
-| <img src="./screenshots/Menu-Light-EN.jpg" width="90%" alt="Settings Menu (Light EN)" /><br><sub><b>Settings Menu</b></sub> | <img src="./screenshots/Menu-Dark-BN.jpg" width="90%" alt="Settings Menu (Dark BN)" /><br><sub><b>সেটিংস মেনু</b></sub> |
-| <img src="./screenshots/Playing-Light-EN.jpg" width="90%" alt="Gameplay (Light EN)" /><br><sub><b>Gameplay</b></sub> | <img src="./screenshots/Playing-Dark-BN.jpg" width="90%" alt="Gameplay (Dark BN)" /><br><sub><b>গেমপ্লে</b></sub> |
-| <img src="./screenshots/Result-Light-EN.jpg" width="90%" alt="Results (Light EN)" /><br><sub><b>Results & Accuracy</b></sub> | <img src="./screenshots/Result-Dark-BN.jpg" width="90%" alt="Results (Dark BN)" /><br><sub><b>ফলাফল ও অ্যাকুরেসি</b></sub> |
+<table>
+  <thead>
+    <tr>
+      <th width="50%" align="center">☀️ Light Mode (English)</th>
+      <th width="50%" align="center">🌙 Dark Mode (বাংলা)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td align="center">
+        <img src="./screenshots/Home-Light-EN.jpg" width="100%" alt="Home Screen (Light EN)" /><br>
+        <sub><b>Home Screen</b></sub>
+      </td>
+      <td align="center">
+        <img src="./screenshots/Home-Dark-BN.jpg" width="100%" alt="Home Screen (Dark BN)" /><br>
+        <sub><b>হোম স্ক্রিন</b></sub>
+      </td>
+    </tr>
+    <tr>
+      <td align="center">
+        <img src="./screenshots/Menu-Light-EN.jpg" width="100%" alt="Settings Menu (Light EN)" /><br>
+        <sub><b>Settings Menu</b></sub>
+      </td>
+      <td align="center">
+        <img src="./screenshots/Menu-Dark-BN.jpg" width="100%" alt="Settings Menu (Dark BN)" /><br>
+        <sub><b>সেটিংস মেনু</b></sub>
+      </td>
+    </tr>
+    <tr>
+      <td align="center">
+        <img src="./screenshots/Playing-Light-EN.jpg" width="100%" alt="Gameplay (Light EN)" /><br>
+        <sub><b>Gameplay</b></sub>
+      </td>
+      <td align="center">
+        <img src="./screenshots/Playing-Dark-BN.jpg" width="100%" alt="Gameplay (Dark BN)" /><br>
+        <sub><b>গেমপ্লে</b></sub>
+      </td>
+    </tr>
+    <tr>
+      <td align="center">
+        <img src="./screenshots/Result-Light-EN.jpg" width="100%" alt="Results (Light EN)" /><br>
+        <sub><b>Results & Accuracy</b></sub>
+      </td>
+      <td align="center">
+        <img src="./screenshots/Result-Dark-BN.jpg" width="100%" alt="Results (Dark BN)" /><br>
+        <sub><b>ফলাফল ও অ্যাকুরেসি</b></sub>
+      </td>
+    </tr>
+  </tbody>
+</table>
 
 </div>
 
