@@ -15,7 +15,7 @@
     </script>
     
     <!-- PWA & Mobile Meta Tags -->
-    <meta name="theme-color" content="#58cc02">
+    <meta name="theme-color" id="theme-color-meta" content="#f7f9fa">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -25,14 +25,17 @@
     <link rel="apple-touch-icon" href="icon-192.png">
 
     <script>
-        (function() {
-            const savedTheme = localStorage.getItem('theme');
-            if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-                document.documentElement.setAttribute('data-theme', 'dark');
-            }
-        })();
-    </script>
-
+    (function() {
+        const savedTheme = localStorage.getItem('theme');
+        const isDark = savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches);
+        if (isDark) {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            const meta = document.getElementById('theme-color-meta');
+            if (meta) meta.setAttribute('content', '#131f24');
+        }
+    })();
+</script>
+    
     <style>
 :root {
     --bg-color: #f7f9fa;
@@ -838,24 +841,21 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
         function updateThemeUI() {
             const isDark = document.documentElement.hasAttribute('data-theme');
             const t = i18n[currentLang];
-            if (elements.settingThemeToggle) {
-                elements.settingThemeToggle.textContent = isDark ? t.themeDark : t.themeLight;
-            }
-        }
+t.hasAttribute('data-theme');
+        const metaThemeColor = document.getElementById('theme-color-meta');
 
-        if (elements.settingThemeToggle) {
-            elements.settingThemeToggle.addEventListener('click', () => {
-                const isDark = document.documentElement.hasAttribute('data-theme');
-                if (isDark) {
-                    document.documentElement.removeAttribute('data-theme');
-                    localStorage.setItem('theme', 'light');
-                } else {
-                    document.documentElement.setAttribute('data-theme', 'dark');
-                    localStorage.setItem('theme', 'dark');
-                }
-                updateThemeUI();
-            });
+        if (isDark) {
+            document.documentElement.removeAttribute('data-theme');
+            localStorage.setItem('theme', 'light');
+            if (metaThemeColor) metaThemeColor.setAttribute('content', '#f7f9fa');
+        } else {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            localStorage.setItem('theme', 'dark');
+            if (metaThemeColor) metaThemeColor.setAttribute('content', '#131f24');
         }
+        updateThemeUI();
+    });
+}
 
         function applyLanguageUI() {
             const t = i18n[currentLang];
