@@ -4,11 +4,9 @@
 [![License: CC BY-NC 4.0](https://img.shields.io/badge/License-CC_BY--NC_4.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc/4.0/)
 [![JLPT: N5](https://img.shields.io/badge/JLPT-N5-orange.svg)]()
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat&logo=html5&logoColor=white)
-![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=flat&logo=css3&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/JavaScript-323330?style=flat&logo=javascript&logoColor=F7DF1E)
-[![PWA Ready](https://img.shields.io/badge/PWA-Ready-blue?logo=pwa)]()
 
-An interactive, Duolingo-style web vocabulary game designed to help Japanese language learners practice and master vocabulary from the **Minna no Nihongo (みんなの日本語) Shokyu I** textbook (Lessons 1–25).
+An interactive, Duolingo-style vocabulary matching game designed to help Japanese language learners practice and master vocabulary from the **Minna no Nihongo (みんなの日本語) Shokyu I** textbook (Lessons 1–25).
 
 🎮 **[Play Live Demo Here](https://5ifty6ix.github.io/minna-no-nihongo-game/)**
 
@@ -24,49 +22,41 @@ An interactive, Duolingo-style web vocabulary game designed to help Japanese lan
 
 ---
 
-## ✨ Features
+## ✨ Key Features
 
-- 🎮 **Tactile Duolingo-Style Gameplay:** Snappy 3D tile press effects, real-time match validation, and satisfying animations.
-- 🔊 **Native Japanese Audio Pronunciation:** Built-in Web Speech Synthesis API audio with automatic fallback to hear native Japanese readings on tap.
-- 🔁 **Smart Weak-Words Review Mode:** If you make mistakes during a session, the app automatically isolates missed vocabulary and lets you re-test them immediately.
-- 📚 **Comprehensive N5 Coverage:** Full vocabulary sets for **Lessons 1 through 25** with custom lesson-by-lesson selection.
-- 🈁 **Furigana Support:** Built with `<ruby>` and `<rt>` HTML elements for proper Japanese typographic pronunciation hints.
-- 🌓 **Dark & Light Mode:** Toggle themes with seamless transitions and automatic system-preference detection (`prefers-color-scheme`).
-- ⏱️ **Personal Best & Stats Tracking:** Tracks completion time, total mistakes, and stores your all-time best records per lesson combo using `localStorage`.
-- ♿ **Accessibility Built-In:** Features an `aria-live` screen-reader live announcer and visible focus outlines for full keyboard navigation.
-- 📱 **Responsive & Zero-Dependency:** 100% vanilla JavaScript, HTML, and CSS—no build steps, no heavy node modules, fast loading on any mobile or desktop device.
+- 🎮 **Tactile Matching Gameplay:** Snappy 3D tile press effects, smooth match animations, and instant feedback.
+- 🔊 **Audio Pronunciation:** Tap Japanese words to hear clear spoken readings out loud to reinforce listening and speaking.
+- 🔁 **Smart "Review Weak Words" Loop:** If you make mistakes during a session, the app automatically isolates missed words and lets you replay them immediately to lock them in.
+- 🈁 **Furigana Reading Aids:** Words display helpful kana readings above kanji so beginners can read without getting stuck.
+- 📚 **Custom Lesson Selection:** Practice a single chapter or mix and match any combination of Lessons 1 through 25.
+- 🌓 **Dark & Light Modes:** Easy one-click theme switcher with automatic detection of your device's system preferences.
+- ⏱️ **Personal Bests & Progress Tracking:** Automatically records your fastest times and lowest mistake counts for every lesson combination.
+- 📱 **Fast & Mobile Ready:** Plays smoothly on mobile, tablet, or desktop with no downloads, accounts, or installations required.
 
 ---
 
 ## 📖 Curriculum Covered
 
-| Category | Description |
+| Category | Details |
 | :--- | :--- |
-| **Source** | *Minna no Nihongo Shokyu I (2nd Edition)* |
-| **JLPT Level** | **JLPT N5** |
-| **Lessons** | Lessons 1 to 25 (Nouns, Verbs, Adjectives, Expressions, Counters) |
+| **Textbook** | *Minna no Nihongo Shokyu I (2nd Edition)* |
+| **Proficiency** | **JLPT N5** |
+| **Content** | Lessons 1 to 25 (Nouns, Verbs, Adjectives, Expressions, Counters) |
 
 ---
 
 ## 🚀 How to Run Locally
 
-No installations or local servers are required:
+If you want to run the project locally on your computer:
 
 1. **Clone the repository:**
    ```bash
    git clone https://github.com/5ifty6ix/minna-no-nihongo-game.git
 
-2.  Navigate into the directory:
+2.  Open the folder:
     cd minna-no-nihongo-game
-3.  Open in browser: Double-click index.html or open it with your favorite
-    browser.
-
-🛠️ Built With
-
-  - HTML5 — Semantic layout, <ruby> annotations, dialog modals
-  - CSS3 — Custom CSS properties (variables), Grid, Flexbox, keyframe animations
-  - JavaScript (ES6+) — Web Speech Synthesis, DOM manipulation, LocalStorage API
-  - GitHub Pages — Continuous static hosting
+3.  Play in your browser: Double-click index.html to start practicing
+    immediately.
 
 👨‍💻 Author
 
