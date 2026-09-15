@@ -767,7 +767,7 @@ Festival", "bn": "গিয়ন উৎসব", "category": "noun" }, { "ja": "
 "ホンコン", "en": "Hong Kong", "bn": "হংকং", "category": "noun" }, { "ja": "シンガポール",
 "en": "Singapore", "bn": "সিঙ্গাপুর", "category": "noun" }, { "ja": "ABC ストア",
 "en": "ABC Store", "bn": "এবিসি স্টোর", "category": "noun" }, { "ja": "ジャパン",
-"en": "Japan (store)", "bn": "জাপান (সুপারমার্কেট)", "category": "noun" } ] };
+"en": "Japan (store)", "bn": "জাপান (সুপারমার্কেট)", "category": "noun" } ],
 "13": [ { "ja": "遊びます", "kana": "あそびます", "en": "enjoy oneself, play", "bn":
 "আনন্দ করা / খেলাধুলা করা", "category": "verb" }, { "ja": "泳ぎます", "kana":
 "およぎます", "en": "swim", "bn": "সাঁতার কাটা", "category": "verb" }, { "ja":
