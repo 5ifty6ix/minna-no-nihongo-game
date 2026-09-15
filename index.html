@@ -25,17 +25,17 @@
     <link rel="apple-touch-icon" href="icon-192.png">
 
     <script>
-    (function() {
-        const savedTheme = localStorage.getItem('theme');
-        const isDark = savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches);
-        if (isDark) {
-            document.documentElement.setAttribute('data-theme', 'dark');
-            const meta = document.getElementById('theme-color-meta');
-            if (meta) meta.setAttribute('content', '#131f24');
-        }
-    })();
-</script>
-    
+        (function() {
+            const savedTheme = localStorage.getItem('theme');
+            const isDark = savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches);
+            if (isDark) {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                const meta = document.getElementById('theme-color-meta');
+                if (meta) meta.setAttribute('content', '#131f24');
+            }
+        })();
+    </script>
+
     <style>
 :root {
     --bg-color: #f7f9fa;
@@ -209,8 +209,8 @@ fieldset { border: none; min-width: 0; }
 .lesson-checkbox {
     display: flex;
     align-items: center;
-    justify-content: center; /* Centered horizontally */
-    text-align: center;      /* Center text alignment */
+    justify-content: center;
+    text-align: center;
     padding: 10px;
     border: 2px solid var(--tile-border);
     border-radius: 12px;
@@ -841,21 +841,28 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
         function updateThemeUI() {
             const isDark = document.documentElement.hasAttribute('data-theme');
             const t = i18n[currentLang];
-t.hasAttribute('data-theme');
-        const metaThemeColor = document.getElementById('theme-color-meta');
-
-        if (isDark) {
-            document.documentElement.removeAttribute('data-theme');
-            localStorage.setItem('theme', 'light');
-            if (metaThemeColor) metaThemeColor.setAttribute('content', '#f7f9fa');
-        } else {
-            document.documentElement.setAttribute('data-theme', 'dark');
-            localStorage.setItem('theme', 'dark');
-            if (metaThemeColor) metaThemeColor.setAttribute('content', '#131f24');
+            if (elements.settingThemeToggle) {
+                elements.settingThemeToggle.textContent = isDark ? t.themeDark : t.themeLight;
+            }
         }
-        updateThemeUI();
-    });
-}
+
+        if (elements.settingThemeToggle) {
+            elements.settingThemeToggle.addEventListener('click', () => {
+                const isDark = document.documentElement.hasAttribute('data-theme');
+                const metaThemeColor = document.getElementById('theme-color-meta');
+
+                if (isDark) {
+                    document.documentElement.removeAttribute('data-theme');
+                    localStorage.setItem('theme', 'light');
+                    if (metaThemeColor) metaThemeColor.setAttribute('content', '#f7f9fa');
+                } else {
+                    document.documentElement.setAttribute('data-theme', 'dark');
+                    localStorage.setItem('theme', 'dark');
+                    if (metaThemeColor) metaThemeColor.setAttribute('content', '#131f24');
+                }
+                updateThemeUI();
+            });
+        }
 
         function applyLanguageUI() {
             const t = i18n[currentLang];
@@ -939,6 +946,7 @@ t.hasAttribute('data-theme');
             availableVoices = window.speechSynthesis.getVoices();
         }
 
+        // Load menu and apply initial language
         initMenu();
         setLanguage(currentLang);
 
@@ -950,7 +958,8 @@ t.hasAttribute('data-theme');
         }
 
         function initMenu() {
-            if (!elements.lessonSelector) return;
+            if (!elements.lessonSelector || typeof vocabData === 'undefined') return;
+            elements.lessonSelector.innerHTML = '<legend class="sr-only">Select Lessons</legend>';
             const availableLessons = Object.keys(vocabData).map(Number).sort((a,b) => a-b);
             
             availableLessons.forEach(lessonNum => {
