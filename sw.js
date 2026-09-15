@@ -1,13 +1,15 @@
-const CACHE_NAME = 'minna-n5-v1';
+const CACHE_NAME = 'minna-n5-v2';
+
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
   './vocab.js',
   './manifest.json',
-  './icon-192.png'
+  './icon-192.png',
+  './icon-512.png'
 ];
 
-// Install: Cache all game assets
+// Install: Cache all core assets and activate immediately
 self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE_NAME).then(cache => {
@@ -16,23 +18,29 @@ self.addEventListener('install', event => {
   );
 });
 
-// Activate: Clean up any old versions
+// Activate: Remove outdated caches and take control of clients
 self.addEventListener('activate', event => {
   event.waitUntil(
     caches.keys().then(keys => {
       return Promise.all(
-        keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key))
+        keys.map(key => {
+          if (key !== CACHE_NAME) {
+            return caches.delete(key);
+          }
+        })
       );
     }).then(() => self.clients.claim())
   );
 });
 
-// Fetch: Serve from cache first; fallback to network
+// Fetch: Serve from cache first, fall back to network
 self.addEventListener('fetch', event => {
   if (event.request.method !== 'GET') return;
-  
-  // Skip analytics requests when offline
-  if (event.request.url.includes('google-analytics') || event.request.url.includes('googletagmanager')) {
+
+  const url = new URL(event.request.url);
+
+  // Skip external analytics requests while offline
+  if (url.hostname.includes('google-analytics.com') || url.hostname.includes('googletagmanager.com')) {
     return;
   }
 
@@ -41,10 +49,18 @@ self.addEventListener('fetch', event => {
       if (cachedResponse) {
         return cachedResponse;
       }
+
       return fetch(event.request).then(networkResponse => {
+        // Cache valid responses for any newly loaded local assets
+        if (networkResponse && networkResponse.status === 200 && networkResponse.type === 'basic') {
+          const responseToCache = networkResponse.clone();
+          caches.open(CACHE_NAME).then(cache => {
+            cache.put(event.request, responseToCache);
+          });
+        }
         return networkResponse;
       }).catch(() => {
-        // Offline fallback
+        // Offline fallback to main app
         return caches.match('./index.html');
       });
     })
