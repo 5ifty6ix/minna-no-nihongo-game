@@ -206,6 +206,8 @@ fieldset { border: none; min-width: 0; }
 .lesson-checkbox {
     display: flex;
     align-items: center;
+    justify-content: center; /* Centered horizontally */
+    text-align: center;      /* Center text alignment */
     padding: 10px;
     border: 2px solid var(--tile-border);
     border-radius: 12px;
@@ -900,8 +902,7 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
                 }
             });
 
-            // ⚡ INSTANT MID-GAME TILE FLIP:
-            // Immediately update the text on any active meaning tiles currently on screen
+            // Instant mid-game tile flip
             document.querySelectorAll('.tile[data-type="meaning"]:not(.cleared)').forEach(tile => {
                 const isBn = currentLang === 'bn';
                 tile.textContent = (isBn && tile.dataset.bn) ? tile.dataset.bn : tile.dataset.en;
