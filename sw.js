@@ -9,7 +9,6 @@ const ASSETS_TO_CACHE = [
   './icon/icon-512.png'
 ];
 
-// Install: Cache all core assets and activate immediately
 self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE_NAME).then(cache => {
@@ -18,7 +17,6 @@ self.addEventListener('install', event => {
   );
 });
 
-// Activate: Remove outdated caches and take control of clients
 self.addEventListener('activate', event => {
   event.waitUntil(
     caches.keys().then(keys => {
@@ -33,13 +31,11 @@ self.addEventListener('activate', event => {
   );
 });
 
-// Fetch: Serve from cache first, fall back to network
 self.addEventListener('fetch', event => {
   if (event.request.method !== 'GET') return;
 
   const url = new URL(event.request.url);
 
-  // Skip external analytics requests while offline
   if (url.hostname.includes('google-analytics.com') || url.hostname.includes('googletagmanager.com')) {
     return;
   }
@@ -51,7 +47,6 @@ self.addEventListener('fetch', event => {
       }
 
       return fetch(event.request).then(networkResponse => {
-        // Cache valid responses for any newly loaded local assets
         if (networkResponse && networkResponse.status === 200 && networkResponse.type === 'basic') {
           const responseToCache = networkResponse.clone();
           caches.open(CACHE_NAME).then(cache => {
@@ -60,7 +55,6 @@ self.addEventListener('fetch', event => {
         }
         return networkResponse;
       }).catch(() => {
-        // Offline fallback to main app
         return caches.match('./index.html');
       });
     })

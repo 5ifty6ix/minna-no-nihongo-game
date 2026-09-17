@@ -1,0 +1,6 @@
+{
+  "name": "Minna No Nihongo N5 Practice",
+  "description": "Minna no Nihongo N5 Vocabulary Matching Practice Game",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

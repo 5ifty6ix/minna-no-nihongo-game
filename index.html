@@ -14,13 +14,14 @@
       gtag('config', 'G-7R9BVC2FSX');
     </script>
     
-    <!-- PWA & Mobile Meta Tags -->
     <meta name="theme-color" id="theme-color-meta" content="#f7f9fa">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="Minna N5">
     <meta name="description" content="Minna no Nihongo N5 Vocabulary Matching Practice Game">
+    <meta property="og:title" content="Minna No Nihongo N5 Practice">
+    <meta property="og:description" content="Minna no Nihongo N5 Vocabulary Matching Practice Game">
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="icon/icon-192.png">
 
@@ -436,7 +437,6 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
 }
 .btn-review:active { transform: translateY(4px); box-shadow: 0 0 0 var(--warning-shadow); }
 
-/* --- Settings Menu Modal --- */
 .settings-list {
     display: flex;
     flex-direction: column;
@@ -582,7 +582,6 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
         </div>
     </div>
 
-    <!-- Settings Modal -->
     <div id="settings-modal" class="modal-overlay">
         <div class="modal">
             <h3 id="settings-modal-title" style="margin-bottom: 5px; font-size: 1.4rem; color: var(--text-color);">Settings</h3>
@@ -607,7 +606,6 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
         </div>
     </div>
 
-    <!-- Quit Modal -->
     <div id="quit-modal" class="modal-overlay">
         <div class="modal">
             <h3 id="quit-modal-title" style="margin-bottom: 10px; font-size: 1.5rem; color: var(--text-color);">Quit Session?</h3>
@@ -619,7 +617,6 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
         </div>
     </div>
 
-    <!-- Review Modal -->
     <div id="review-modal" class="modal-overlay">
         <div class="modal">
             <h3 id="review-modal-title" style="margin-bottom: 10px; font-size: 1.5rem; color: var(--warning-shadow);">Review Weak Words</h3>
@@ -649,7 +646,6 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
     <script>
     document.addEventListener('DOMContentLoaded', () => {
 
-        // --- Conversational Natural Localization (i18n) ---
         const i18n = {
             en: {
                 subtitle: "Vocabulary Matching",
@@ -729,7 +725,6 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
         let currentLang = localStorage.getItem('app_lang') || 'en';
         let soundEnabled = localStorage.getItem('sound_enabled') !== 'false';
 
-        // --- DOM Elements ---
         const screens = {
             menu: document.getElementById('menu-screen'),
             game: document.getElementById('game-screen'),
@@ -759,7 +754,6 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
             statAccuracyLabel: document.getElementById('stat-accuracy-label'),
             statTimeLabel: document.getElementById('stat-time-label'),
             footerDevLabel: document.getElementById('footer-dev-label'),
-            // Settings Modal Elements
             menuBtn: document.getElementById('menu-btn'),
             settingsModal: document.getElementById('settings-modal'),
             settingsCloseBtn: document.getElementById('settings-close-btn'),
@@ -771,12 +765,10 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
             langBtnBn: document.getElementById('lang-btn-bn'),
             settingSoundToggle: document.getElementById('setting-sound-toggle'),
             settingThemeToggle: document.getElementById('setting-theme-toggle'),
-            // Quit Modal Elements
             quitModalTitle: document.getElementById('quit-modal-title'),
             quitModalDesc: document.getElementById('quit-modal-desc'),
             modalCancelBtn: document.getElementById('modal-cancel-btn'),
             modalConfirmBtn: document.getElementById('modal-confirm-btn'),
-            // Review Modal Elements
             reviewModalTitle: document.getElementById('review-modal-title'),
             reviewModalDesc: document.getElementById('review-modal-desc'),
             skipReviewBtn: document.getElementById('skip-review-btn'),
@@ -789,7 +781,6 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
             review: document.getElementById('review-modal')
         };
 
-        // --- Settings Menu & Controls ---
         if (elements.menuBtn) {
             elements.menuBtn.addEventListener('click', () => {
                 modals.settings.classList.add('active');
@@ -802,7 +793,6 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
             });
         }
 
-        // Language Switcher Handlers
         function setLanguage(lang) {
             currentLang = lang;
             localStorage.setItem('app_lang', lang);
@@ -821,7 +811,6 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
         if (elements.langBtnEn) elements.langBtnEn.addEventListener('click', () => setLanguage('en'));
         if (elements.langBtnBn) elements.langBtnBn.addEventListener('click', () => setLanguage('bn'));
 
-        // Sound Switcher Handler
         function updateSoundUI() {
             const t = i18n[currentLang];
             if (elements.settingSoundToggle) {
@@ -837,7 +826,6 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
             });
         }
 
-        // Theme Switcher Handler
         function updateThemeUI() {
             const isDark = document.documentElement.hasAttribute('data-theme');
             const t = i18n[currentLang];
@@ -880,26 +868,22 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
             elements.playAgainBtn.textContent = t.playAgain;
             elements.footerDevLabel.textContent = t.devBy;
 
-            // Settings Modal
             elements.settingsTitle.textContent = t.settings;
             elements.labelLang.textContent = t.langLabel;
             elements.labelSound.textContent = t.soundLabel;
             elements.labelTheme.textContent = t.themeLabel;
             elements.settingsCloseBtn.textContent = t.done;
 
-            // Quit Modal
             elements.quitModalTitle.textContent = t.quitTitle;
             elements.quitModalDesc.textContent = t.quitDesc;
             elements.modalCancelBtn.textContent = t.cancel;
             elements.modalConfirmBtn.textContent = t.quit;
 
-            // Review Modal
             elements.reviewModalTitle.textContent = t.reviewTitle;
             elements.reviewModalDesc.textContent = t.reviewDesc;
             elements.skipReviewBtn.textContent = t.skip;
             elements.startReviewBtn.textContent = t.reviewNow;
 
-            // Update Lesson Checkbox labels
             document.querySelectorAll('.lesson-checkbox').forEach(label => {
                 const cb = label.querySelector('input');
                 if (cb) {
@@ -909,7 +893,6 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
                 }
             });
 
-            // Instant mid-game tile flip
             document.querySelectorAll('.tile[data-type="meaning"]:not(.cleared)').forEach(tile => {
                 const isBn = currentLang === 'bn';
                 tile.textContent = (isBn && tile.dataset.bn) ? tile.dataset.bn : tile.dataset.en;
@@ -919,7 +902,6 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
             updateThemeUI();
         }
 
-        // --- Game State ---
         let state = {
             selectedLessons: new Set(),
             currentPool: [],
@@ -946,7 +928,6 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
             availableVoices = window.speechSynthesis.getVoices();
         }
 
-        // Load menu and apply initial language
         initMenu();
         setLanguage(currentLang);
 
@@ -1344,7 +1325,6 @@ footer { margin-top: 30px; font-size: 0.95rem; opacity: 0.6; text-align: center;
 
     });
 
-    // --- Service Worker Registration for Offline PWA ---
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
             navigator.serviceWorker.register('./sw.js')
